@@ -1,0 +1,46 @@
+body{background-color: #d7f5d7; height: 100%; width: 100%; position: relative;}
+a:link, a:visited, a{color: darkgreen; text-decoration: none;}
+
+td {border: 2px solid; width: 100%; padding: 5px; text-align: left; border-color: darkgreen;}
+th{border: 2px solid; width: 100%; padding: 2.5px;text-align: center; border-color: darkgreen; 
+    color: rgb(165, 99, 14);}
+th#elmnt{}
+tr{border-color: darkgreen;} 
+.m_vidow{position:relative; height: 100%; width:98%; margin: 0; padding: 0; border: 0;}
+.H_d{width: 100%; height: 80px; border-color: #85fa85; border-style: inset; display:  block; 
+    justify-content: space-between; border-radius: 6px;border: solid 2px darkgreen;border-right-width: 1px; 
+    border-bottom-width: 0px;}
+.logo_s{border-right-color: #85fa85; float: left; background-image: url(../img/logos.png);}
+.head_prod{height: 37.5px; color: black; font-style: inherit; display: flex; font-size: larger;
+    justify-content: center; align-items: center; float: none; }
+.glob_menu{height: 37.5px; max-height: 37.5px; min-height: 37.5px; float: none; font-size: large;
+    display: flex; align-items: center; padding-left: 5px; color:rgb(13, 51, 13);
+    border: solid 2px darkgreen;border-right-width: 0px; border-bottom-width: 0px;border-radius: 3px;}
+    .f_select{border-color: darkgreen; padding-left: 2px; margin-left: 5px; margin-right: 5px; 
+        border-radius: 5px; color:darkgreen; border-top-width: 2px; border-left-width: 2px; 
+        border-right-width: 1px; border-bottom-width: 1px; width: 50px; }
+    .f_select_s{border-color: #85fa85; margin-left: 5px; margin-right: 5px; width: 35px;  
+        border-radius: 5px; width: 21px; }
+    .f_select_d{border-color: #85fa85; margin-left: 5px; margin-right: 5px; width: 45px;  
+        border-radius: 5px;overflow-y: scroll; }
+.glob_menu input{color:darkgreen; border-radius: 5px;}
+.bonoff{ outline: none; user-select: none;  color: rgb(2, 39, 2); background-color: #85fa85; 
+    border-top-width: 2px; border-left-width: 2px; border-right-width: 1px; border-bottom-width: 1px;
+    border-color: darkgreen; cursor: pointer; border-radius: 5px; margin-left: 5px;}
+.bonoff:disabled{cursor: not-allowed;}
+
+.content_pad{ padding: 0px; padding-top:2px; border-style: inset; height: 75vh; width: 100%; 
+    border: solid 3px darkgreen; overflow: auto; border-right-width: 1px; border-bottom-width: 0px;
+border-radius: 3px;}
+option{width: 50px;}
+.bottom_pad{padding: 0px; border: solid 3px darkgreen; border-style: inset; bottom: 0; width: 100%;
+            height: 10vh;background-color: #85fa85; border-right-width: 1px; border-bottom-width: 1px; 
+            border-style: inset; border-top-width: 3px; padding-top: 2px; border-right-width: 1px; 
+            align-content: center; border-radius: 3px;}
+.m_listing {border: 1px; width: 100%; border-collapse: collapse; table-layout: fixed; word-wrap:break-word;
+            color: darkgreen; }
+.m_listing th:nth-child(0), .m_listing td:nth-child(0) { width: 180px;}
+.content_menu{display: inline-block; margin-left: 10px; font-size: 15px; }
+.c_menu_item{display:  inline-flex; float: left; width: 100px;}
+.c_menu_item img{float: left;}
+.actived{ cursor: pointer; color: darkgreen;}
