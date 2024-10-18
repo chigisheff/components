@@ -21,11 +21,11 @@ if ($mysql) {
             <label for="SMD">SMD</label>
             <input id="SMD" type="checkbox">
             U(v)  ≤
-            <input type="text" class="f_select_s">
+            <input type="text" class="f_select_s" id="Uv">
             I(a)  ≤
-            <input type="text" class="f_select_s">
+            <input type="text" class="f_select_s" id="Ia">
             F(MHz)
-            <input type="text" class="f_select_s">
+            <input type="text" class="f_select_s" id="Fmhz">
             <button class="bonoff" disabled>фильтр</button>
            
         </form>

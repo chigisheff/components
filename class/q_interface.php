@@ -22,7 +22,7 @@ class q_interface{
                 <button class="content_menu actived" style="border: 0; font-size: 15px; display: inline-block;
                         border-radius: 8px; background-color: #d7f5d7;  text-align: center;
                         color: darkgreen; cursor: pointer;" id ="<?php echo 'm_' . $i . '_' . $arrayind . '_0'; ?>"
-                        ><img src="img/add.v1.png" /> Добавить </button>
+                        value="<?php echo "  tbl_" . $arrayind . "_nm" . substr(uniqid(), -4); ?>"><img src="img/add.v1.png" /> Добавить </button>
                 <button disabled class="content_menu" style="border: 0;  font-size: 15px; display: inline-block;
                         border-radius: 8px; background-color: #d7f5d7;  text-align: center;
                         " id ="<?php echo 'm_' . $i . '_' . $arrayind . '_1'; ?>"
@@ -48,7 +48,9 @@ class q_interface{
                 ?><td style="vertical-align: middle; ">  <?php
                 if($j == $position){
                     echo $array[$i][$out]; //Размещаем список
-            }
+                    
+                    
+                }
             $this->putDataColTableTools($menu_y, $menu_pos,$array[$i][0],$i,$j, false);
         ?></td> <?php
     }
