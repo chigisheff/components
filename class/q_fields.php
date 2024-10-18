@@ -1,13 +1,8 @@
 <?php
-class q_fields{
-    public function getConnect(){
-        $db = new mysqli('localhost','componentsd','JsCyZabq]gJg3!BF','components');
-        if(!$db){
-            return false;
-        }
-        return $db;
-        
-    }
+require_once "class/classBase.php";
+
+class q_fields extends classBase{
+    
     public function getItemList($mysql){
         $query = "SELECT u_cod,u_i_name FROM itemlist ORDER BY u_i_name";
         $result = mysqli_query($mysql, $query); 
@@ -17,7 +12,6 @@ class q_fields{
             $i++;
         }
         return $rowout;
-        
     }
     
 }

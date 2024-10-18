@@ -1,5 +1,5 @@
 <?php
-class q_interface{
+class q_interface extends classBase{
     public function putDataSelectOptions($inwar, $allselect = ''){
         if($allselect ){
         ?>

@@ -1,11 +1,7 @@
 <?php
-class q_index_page{
-    private function getConnect(){
-        require_once 'class/q_fields.php';
-        $p = new q_fields();
-        $request = $p->getConnect();
-        return $request;
-    }
+require_once "class/classBase.php";
+
+class q_index_page extends classBase {
     public function GetDataElements($connection,$keyItem)
     {
         if($keyItem < 16777214){

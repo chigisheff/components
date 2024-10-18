@@ -17,14 +17,13 @@
         <th id="elmnt">
             Элемент
         </th>
-        <th id="typen">
-            Таблица
-        </th>
+        
         <th>
             Доступные инструменты
         </th>
     </tr>
-    <?php $pi->putDataSelectTable($row, 1, 3, 0, true, 2)?>
+    <?php $pi->putDataSelectTable($row, 1, 2, 0, true, 1)?>
+    
 </table>
 
 </div>
