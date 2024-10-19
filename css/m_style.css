@@ -31,16 +31,25 @@ tr{border-color: darkgreen;}
 
 .content_pad{ padding: 0px; padding-top:2px; border-style: inset; height: 75vh; width: 100%; 
     border: solid 3px darkgreen; overflow: auto; border-right-width: 1px; border-bottom-width: 0px;
-border-radius: 3px;}
+border-radius: 3px; position:  relative; }
+.content_pad_page{padding: 0px; padding-top:2px; border-style: inset; height: 37.5vh; width: 100%;
+    border: solid 3px darkgreen; overflow: auto; border-right-width: 1px; border-bottom-width: 0px;
+    border-radius: 3px; position:  relative; }
 option{width: 50px;}
-.bottom_pad{padding: 0px; border: solid 3px darkgreen; border-style: inset; bottom: 0; width: 100%;
-            height: 10vh;background-color: #85fa85; border-right-width: 1px; border-bottom-width: 1px; 
+.bottom_pad{padding: 0px; border: solid 3px darkgreen; bottom: 0; width: 100%;
+            height: 10vh; background-color: #85fa85; border-bottom-width: 1px; 
             border-style: inset; border-top-width: 3px; padding-top: 2px; border-right-width: 1px; 
-            align-content: center; border-radius: 3px;}
+            align-content: center; border-radius: 3px; position:  relative; }
 .m_listing {border: 1px; width: 100%; border-collapse: collapse; table-layout: fixed; 
             word-wrap:break-word; color: darkgreen; }
+.m_listing th{font-size: 20px;}
+.m_listing td{font-size: 15px;}
 .m_listing th:nth-child(0), .m_listing td:nth-child(0) { width: 180px;}
-.content_menu{display: inline-block; margin-left: 10px; font-size: 15px; }
-.c_menu_item{display:  inline-flex; float: left; width: 100px;}
+.content_menu{display: inline-block; margin-left: 10px;}
+.content_menu span{font-size: 15px; margin-bottom: auto; margin-top: auto;font-style: italic;
+                   text-decoration: underline ; font-size: 14px;}
+.content_menu button{display: flex; float: left; justify-content: center; align-items: center; 
+                    width: 120px; border-radius: 8px; background-color: #d7f5d7;border: 0px;
+                    text-align: center;}
 .c_menu_item img{float: left;}
 .actived{ cursor: pointer; color: darkgreen;}

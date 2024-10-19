@@ -11,7 +11,7 @@
     }
     
 ?>
-<div class="content_pad">
+<div class="content_pad_page">
 <table class="m_listing">
     <tr>
         <th id="elmnt">
@@ -27,6 +27,7 @@
 </table>
 
 </div>
+<div class="content_pad_page"> </div>
 <script type="text/javascript">
     $(function(){
         $(".content_menu").click(function () {
