@@ -9,7 +9,7 @@
         <p>Это простое диалоговое окно.</p>
         <button id="close-dialog-btn">Закрыть</button>
     </dialog>
-    <script>
+    <!--script>
         const showDialogBtn = document.querySelector('#grouplist');
         const myDialog = document.querySelector('#my-dialog');
         const closeDialogBtn = document.querySelector('#close-dialog-btn');
@@ -21,4 +21,4 @@
         closeDialogBtn.addEventListener('click', () => {
             myDialog.close();
         });
-    </script>
+    </script-->

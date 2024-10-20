@@ -6,7 +6,7 @@
     $p0 = new pagemain();
     $p = new manage_main();
     $p->p_header();
-?> <div class="m_vidow"><?php
+?> <div class="m_vidow" id="element"><?php
     $p->p_open();
     $p->p_content();
     $p->p_close();

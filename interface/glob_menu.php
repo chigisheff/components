@@ -27,6 +27,5 @@ if ($mysql) {
             F(MHz)
             <input type="text" class="f_select_s" id="Fmhz">
             <button class="bonoff" disabled>фильтр</button>
-           
         </form>
 </div>
