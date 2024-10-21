@@ -34,7 +34,17 @@
     <?php $pi->putDataSelectTable($row, 1, 2, 0, true, 1)?>
     
 </table>
-
+<div class="back_phone">
+    <div class="dlg_datasheets" id="m_dialog" value="" title="">
+        <div id="dlg_crs"><h1></h1>
+            <form>
+                <input id="f"/>
+                <input id="f1"/>
+                <input id="f2"/>
+            </form>
+        </div>
+    </div>
+</div>
 </div>
 <div class="content_pad_page_collapsed">
     <div class="head_pg_pad">
@@ -42,28 +52,37 @@
             Что-то еще...
         </span>
         <div class="menu_pad_op">
-            <button id="collaps2"><img src="img/collapse.v1.png" alt="Свернуть"/></button>
+            <button type="button" id="collaps2" disabled><img src="img/collapse.v1.png" alt="Свернуть"/></button>
             <button id="expand2"><img src="img/expand.v1.png" alt="Развернуть"/></button>
         </div> 
     </div>
 </div>
+
+
+<?php
+
+?>
 <script type="text/javascript">
-    const rEvents = document.querySelector('#collaps1');
-    const lEvents = document.querySelector('#collaps2');
-    const toggleDivs = document.querySelector('.content_pad_page');
-    const toggleDivCollapse = document.querySelector('.content_pad_page_collapsed');
     $('#collaps1, #expand2').click(function () {
-        $('#expand1,#collaps2').attr('disabled',true);
-        $('#collaps1,#expand2').attr('disabled',false);
-        $('.content_pad_page').css("height","25");
-        $('.content_pad_page_collapsed').css("height","576.719");
-        return false;    
+        $('#collaps1,#expand2').attr('disabled', true);
+        $('#collaps2,#expand1').attr('disabled', false);
+        $('.content_pad_page').css("height", "25");
+        $('.content_pad_page_collapsed').css("height", "576.719").css("overflow-y", "scroll");
+        return false;
     });
-    $('#collaps2, #expand1').click(function () {
-        $('#expand1,#collaps2').attr('disabled',false);
-        $('#collaps1,#expand2').attr('disabled',true);
-        $('.content_pad_page').css("height","576.719");
-        $('.content_pad_page_collapsed').css("height","25");
-        return false;    
+    $('#collaps2,#expand1').click(function () {
+        $('#collaps1,#expand2').attr('disabled', false);
+        $('#collaps2,#expand1').attr('disabled', true);
+        $('.content_pad_page').css("height", "576.719").css("overflow-y", "scroll");
+        $('.content_pad_page_collapsed').css("height", "25");
+        return false;
+    });
+    $(".content_menu").click(function (){
+        const Id = $(this).attr('id');
+        const val = $(this).attr('value');
+        const funct = Id.slice(-1);
+        $("#m_dialog").dialog({width:400,height:210,modal:true}).dialog('open');
+        
+        return false;
     });
 </script>

@@ -9,10 +9,11 @@ q_fields.php - запросы БД заполнение select для index.php 
 q_index_page.php - запросы БД вывод общего списка компонентов
 q_interface.php - интерфейс для заполнения select и того же списка и инструментов к списку
 q_oper_page.php - работа с динамически создаваемыми таблицами на тип элемента
+q_prmtr_item.php - запросы БД запись itemlist.u_i_table_name и данные из/в parameter_items
 
 css/
-m_style.php
-reset.php - 
+m_style.css
+reset.css стандарный сброс стилей по умолчанию
 
 img/
 
