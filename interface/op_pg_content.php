@@ -6,6 +6,7 @@
     $mysql = $p->getConnect();
     if ($mysql) {
         $row = $p->getItemList($mysql);
+        $array = $p->getPackageList($mysql);
     } else {
         echo "Ошибка соединения с базой данных";
     }
@@ -35,15 +36,37 @@
     
 </table>
 <div class="back_phone">
-    <div class="dlg_datasheets" id="m_dialog" value="" title="">
-        <div id="dlg_crs"><h1></h1>
-            <form>
-                <input id="f"/>
-                <input id="f1"/>
-                <input id="f2"/>
-            </form>
+    
+    <div id="dlg_crs">
+        <div class="head_dlg_pad">
+            <div class="head_dlg_pad">
+                <h1></h1>
+                <button type="button" id="collaps1_1"><img src="img/close.v2.png" alt="Свернуть"/></button>
+            </div>
         </div>
+        
+        <form enctype="multipart/form-data" method="post">
+            <hr>
+            <p>Элемент <input id="element_cod"/></p>
+            <p>Корпус 
+                <select name="typ_box[]" id="select_dlg">
+                    <option value="0">Не выбран</option>
+            <?php   
+                    $pi->putDataSelectTypes($array)?>
+                </select><button type="button" id="addbox" ><img src="img/add.v1.png"/></button>
+            </p>
+            <p>Umax <input id="Umax"/></p>
+            <p>Imax <input id="Imax"/></p>
+            <hr>
+            <p>DataSheet</p>
+            
+            <hr>
+            <p><button type="button" id="data_upload" name="datasheet_up">Сохранить</button></p>
+        </form>
+        
+        <p><button type="button" id="detail_upload" name="datasheet_up">Дополнительная информация</button></p>
     </div>
+    
 </div>
 </div>
 <div class="content_pad_page_collapsed">
@@ -81,8 +104,16 @@
         const Id = $(this).attr('id');
         const val = $(this).attr('value');
         const funct = Id.slice(-1);
-        $("#m_dialog").dialog({width:400,height:210,modal:true}).dialog('open');
-        
+        if(funct === '0'){$('#dlg_crs h1').html('Новая таблица<br>');}
+        else{$('#dlg_crs h1').html('Изменение таблицы');}
+        $('.back_phone').css("display","block");
         return false;
     });
+    $("#collaps1_1").click(function (){
+        $('#element_cod,#Umax,#Imax').val('');
+        $('#select_dlg option').prop('selected',false);
+        $('.back_phone').css("display","none");
+        
+    });
+    
 </script>

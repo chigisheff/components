@@ -48,19 +48,26 @@ class q_interface extends classBase{
         ?>
         <tr style="color: darkgreen;">
         <?php
-        for($j = 0; $j < $cols;$j++){
-                ?><td>  <?php
-                if($j == $position){
-                    echo $array[$i][$out]; //Размещаем список
-                    
-                    
-                }
-            $this->putDataColTableTools($menu_y, $menu_pos,$array[$i][0],$array[$i][2],$i,$j, false);
-        ?></td> <?php
-    }
+            for($j = 0; $j < $cols;$j++){
+                    ?><td>  <?php
+                    if($j == $position){
+                        echo $array[$i][$out]; //Размещаем список
+
+
+                    }
+                $this->putDataColTableTools($menu_y, $menu_pos,$array[$i][0],$array[$i][2],$i,$j, false);
+            ?></td> <?php
+            }   
     ?></tr> 
     <?php
-}
+        }
 
-}
+    }
+    public function putDataSelectTypes($array)
+    {
+        $stop = count($array);
+        for($i=0;$i<$stop;$i++){
+        ?>  <option value="<?php echo $array[$i][0].'">'.$array[$i][1];?></option><?php 
+        }
+    }
 }

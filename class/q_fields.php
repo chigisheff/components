@@ -13,5 +13,15 @@ class q_fields extends classBase{
         }
         return $rowout;
     }
+    public function getPackageList($mysql){
+        $query = "SELECT ch_cod,ch_name FROM package_type ORDER BY ch_name";
+        $result = mysqli_query($mysql, $query);
+        $i=0;
+        while ($row = mysqli_fetch_row($result)) {
+            $rowout[$i]=$row;
+            $i++;
+        }
+        return $rowout;
+    }
     
 }
