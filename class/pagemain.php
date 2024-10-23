@@ -11,9 +11,8 @@ class pagemain{
 	public $script_src = "<script src=\"js/jquery-3.7.1.js\" ></script>";
 	public function p_header(){
 		?><head>
-                <?php echo $this->meta_charset; ?>
+                <?php echo $this->meta_charset;  ?>
                   <meta name="robots" content="noindex,nofollow">
-                  
                   <title> <?php echo $this->title; ?> </title> 
                 <link rel="icon" href="favicon.ico" type="image/x-icon">
                 <?php
