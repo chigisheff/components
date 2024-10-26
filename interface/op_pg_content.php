@@ -66,6 +66,7 @@
     </div>
 </div>
 </div>
+
 <div class="content_pad_page_collapsed">
     <div class="head_pg_pad">
         <span>
@@ -74,6 +75,17 @@
         <div class="menu_pad_op">
             <button type="button" id="collaps2" disabled><img src="img/collapse.v1.png" alt="Свернуть"/></button>
             <button id="expand2"><img src="img/expand.v1.png" alt="Развернуть"/></button>
+        </div> 
+    </div>
+</div>
+<div class="content_pad_page_collapsed">
+    <div class="head_pg_pad">
+        <span>
+            Что-то еще...
+        </span>
+        <div class="menu_pad_op">
+            <button type="button" id="collaps3" disabled><img src="img/collapse.v1.png" alt="Свернуть"/></button>
+            <button id="expand3"><img src="img/expand.v1.png" alt="Развернуть"/></button>
         </div> 
     </div>
 </div>
@@ -129,29 +141,28 @@
         }
         $('#select_dlg option:first').prop('selected',true);
     });
-    $(function(){
-        $("#f_el_list").submit(function(){
-            const arr2string = unputcontent.join(' ');
-            var formData = {
-                "#element_cod":$("#element_cod").val(),
-                "#Umax":$("#Umax").val(),
-                "#Imax":$("#Imax").val(),
-                "#f_el_list":$("#f_el_list").val(),
-                "array_sting":arr2string
-            };
-        $.ajax({
-            url:'interface/data_dlg_table_op.php',
-            type:'POST',
-            data:JSON.stringify(arr2string),
-            contentType: 'application/json',
-            success: function(res){
-                alert(res);
-            },
-            error: function(error){
-                console.error('Ошибка', error);
-            }
-        });
-        return false;
-        });
+    $("#f_el_list").click(function(){
+        const arr2string = unputcontent.join(' ');
+        var formData = {
+            "#element_cod":$("#element_cod").val(),
+            "#Umax":$("#Umax").val(),
+            "#Imax":$("#Imax").val(),
+            "#f_el_list":$("#f_el_list").val(),
+            "array_sting":arr2string
+        };
+    $.ajax({
+        url:'interface/data_dlg_table_op.php',
+        type:'POST',
+        data:JSON.stringify(formData),
+        contentType: 'application/json',
+        success: function(res){
+            alert(res);
+        },
+        error: function(error){
+            console.error('Ошибка', error);
+        }
     });
+    return false;
+    });
+            
 </script>
