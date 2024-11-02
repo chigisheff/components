@@ -1,5 +1,9 @@
 <?php
-ob_end_clean();
-$data = filter_input(INPUT_POST, 'data');
-header('Content-Type:application/json');
-echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+header('Content-Type: application/json;charset=utf-8');
+header('Accept: application/json');
+    $json = file_get_contents('php://input');
+    $data = json_decode($json,true);
+
+//$data = filter_input(INPUT_POST, 'data');
+echo 'Информация сохранена';
+exit();

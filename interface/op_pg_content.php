@@ -45,15 +45,15 @@
             <hr>
             <p>Компонент <input type="text" id="element_cod"  required/></p>
             <p>Корпус 
-                <select name="typ_box[]" id="select_dlg">
+                <select name="typ_box[]" id="select_dlg"  onchange="onSelectChange(event)">
                     <option value="0">Не выбран</option>
             <?php   
                     $pi->putDataSelectTypes($array)?>
                     </select>
                     <button type="button" id="addbox" ><img src="img/add.v1.png"/></button>
             </p>
-            <p>Umax <input type="text" id="Umax"/></p>
-            <p>Imax <input type="text" id="Imax"/></p>
+            <p>Umax(V) <input type="text" id="Umax"/></p>
+            <p>Imax(A) <input type="text" id="Imax"/></p>
             <hr>
             <p>DataSheet</p>
             <input type="file" id="file-upload" />
@@ -66,7 +66,6 @@
     </div>
 </div>
 </div>
-
 <div class="content_pad_page_collapsed">
     <div class="head_pg_pad">
         <span>
@@ -92,6 +91,7 @@
 <script type="text/javascript">
     var ind = 0;
     var unputcontent=[];
+    
     $('#collaps1, #expand2').click(function () {
         $('#collaps1,#expand2').attr('disabled', true);
         $('#collaps2,#expand1').attr('disabled', false);
@@ -113,16 +113,27 @@
         if(funct === '0'){$('#dlg_crs h1').html('Новый компонент<br>');}
         else{$('#dlg_crs h1').html('Изменение компонента');}
         $('.back_phone').css("display","block");
+        const pos = $('.content_pad_page').offset().top;
+        
+        $('.content_pad_page').scrollTop(-pos);
         return false;
     });
     $("#collaps1_1").click(function (){
         $('#element_cod,#Umax,#Imax').val('');
         $('#select_dlg option').prop('selected',false);
         $('.back_phone').css("display","none");
-        
+        ind=0;
         $('#Result').empty();
         unputcontent = '';
     });
+    function onSelectChange(event) {
+        const selectedValue = event.target.value;
+        const vl = $("#select_dlg option:selected").text();
+        const idx = $("#select_dlg option:selected").val();
+        if(ind===0 && vl !== "Не выбран"){
+            fill_in(vl,idx);
+        }
+    };
     $('#addbox').mouseover(function(){
         if($("#select_dlg option:selected").text()==="Не выбран")
             {$('#addbox').css('cursor','default');} else {$('#addbox').css('cursor','pointer');}
@@ -130,39 +141,54 @@
     $('#addbox').click(function(){
         const vl = $("#select_dlg option:selected").text();
         const idx = $("#select_dlg option:selected").val();
-        if($.inArray(vl,unputcontent)===-1 && vl !== "Не выбран" ){
-            var f_data = Array(2);
+        if($.inArray(vl,unputcontent)===-1 && vl !== "Не выбран"){
+            fill_in(vl,idx);
+        }
+        $('#select_dlg option:first').prop('selected',true);
+    });
+    function fill_in(vl,idx){
+        var f_data = Array(2);
             f_data[0] = idx; f_data[1] = vl; 
             unputcontent[ind] = f_data;
             const what=`prev_${ind}`;
             $("#Result").append('<p><input type="text" id="'+what+'" form="f_el_list" /></p>');
             $("#"+what).val(vl).prop('disabled',true);
             ind = ind+1;
-        }
-        $('#select_dlg option:first').prop('selected',true);
-    });
-    $("#f_el_list").click(function(){
-        const arr2string = unputcontent.join(' ');
-        var formData = {
-            "#element_cod":$("#element_cod").val(),
-            "#Umax":$("#Umax").val(),
-            "#Imax":$("#Imax").val(),
-            "#f_el_list":$("#f_el_list").val(),
-            "array_sting":arr2string
+            $('#select_dlg option:first').prop('selected',true);
+    };
+    function isJSONWithoutExceptions(str) {
+           if (/^[\],:{}\s]*$/.test(str
+              .replace(/\\["\\\/bfnrtu]/g, '@')
+              .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']') 
+              .replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+              return true;
+            }
+            return false;
         };
-    $.ajax({
-        url:'interface/data_dlg_table_op.php',
-        type:'POST',
-        data:JSON.stringify(formData),
-        contentType: 'application/json',
-        success: function(res){
-            alert(res);
-        },
-        error: function(error){
-            console.error('Ошибка', error);
-        }
-    });
-    return false;
-    });
+    $("#data_upload").click(function(){
+        var arr2string='';
+        if(unputcontent.length>1){
+            arr2string = unputcontent.join(',');
+        } else {arr2string = unputcontent[0];}
+        
+        var m_formData = {
+            "element_cod": $('#element_cod').val(),
+            "Umax": $('#Umax').val(),
+            "Imax": $('#Imax').val(),
+            "array_sting" : "["+ arr2string+"]"
+        };
+        
+        $.ajax({
+            url:'interface/data_dlg_table_op.php',
+            type:'POST',
+            cache: false,
+            data: JSON.stringify(m_formData),
+            contentType:'multipart/form-data',
+            //contentType: 'application/json',
+            success: function(data){
+                console.log(data);
+            }
+        });
+     });
             
 </script>
