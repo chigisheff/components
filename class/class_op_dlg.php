@@ -5,6 +5,7 @@
  *
  * @author andreych
  */
+require_once '../class/classFileServ.php';
 class class_op_dlg extends classFileServ
 {
     public function compliteLoad($fname)
@@ -15,8 +16,8 @@ class class_op_dlg extends classFileServ
         } else {
             if (!$this->if_noError($fname)) {
                 $error = "Ошибка загрузки файла";
-            } elseif (!($this->testExtention($fname['name'])&&$this->mimeReview($fname['name']))){
-                    $error = "Неверное расширение или MIME тип файла. Сохранение отменено.";
+            } elseif (!($this->testExtention($fname['name']))){ //&&$this->mimeReview($fname['name'])
+                $error = "Неверное расширение. Сохранение отменено.";
             } 
         }
         return $error;

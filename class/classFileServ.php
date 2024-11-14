@@ -59,10 +59,11 @@ class classFileServ
         return $result_report;
     }
 
-    // проверка миме типа на соответсвие заявленному расширению
+    // проверка миме типа на соответсвие заявленному расширению, говно ващемта. MIME можно брать из
+    // $_FILE mime_content_type не описана, даже если включить fileinfo
     public function mimeReview($fname){
-        $result_report = true;
-        if(!in_array(mime_content_type($fname['extension']), $this->mimeAllow) ){
+        $result_report = true; 
+        if(!in_array(mime_content_type($fname['name']), $this->mimeAllow) ){
             $result_report = false;
         }
         return $result_report;

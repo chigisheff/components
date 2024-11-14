@@ -1,5 +1,6 @@
 
 <div class="content_pad">
+    <div class="select_page"></div>
     <table class="m_listing">
         <tr>
             <th id="elmnt">
@@ -9,19 +10,23 @@
                 тип
             </th>
             <th id="maxU">
-                max напряжение (v)
+                мощность (P)
+            </th>
+            <th id="maxU">
+                напряжение (V)
             </th>
             <th id="maxI">
-                max ток (a)
+                ток (A)
             </th>
             <th id="F">
-                max частота (мегагерц)
+                частота (mHz)
             </th>
             <th id="Data">
                 DataSheet
             </th>
         </tr>
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

@@ -7,21 +7,3 @@
     </div>
     <?php include_once 'glob_menu.php'; ?>
 </div>
-
-    <dialog id="my-dialog" class="type_r_input">
-        <p>Это простое диалоговое окно.</p>
-        <button id="close-dialog-btn">Закрыть</button>
-    </dialog>
-    <!--script>
-        const showDialogBtn = document.querySelector('#grouplist');
-        const myDialog = document.querySelector('#my-dialog');
-        const closeDialogBtn = document.querySelector('#close-dialog-btn');
-
-        showDialogBtn.addEventListener( 'dblclick', () => {
-            myDialog.showModal();
-        });
-
-        closeDialogBtn.addEventListener('click', () => {
-            myDialog.close();
-        });
-    </script-->

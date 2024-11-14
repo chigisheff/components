@@ -13,7 +13,7 @@ tr{border-color: darkgreen;}
 .logo_s{border-right-color: #85fa85; float: left; background-image: url(../img/logos.png);}
 .head_prod{height: 37.5px; color: black; font-style: inherit; display: flex; font-size: larger;
     justify-content: center; align-items: center; float: none; }
-.glob_menu{height: 37.5px; max-height: 37.5px; min-height: 37.5px; float: none; font-size: large;
+.glob_menu{height: 37.5px; max-height: 37.5px; min-height: 37.5px; float: none; font-size: 16px;
     display: flex; align-items: center; padding-left: 5px; color:rgb(13, 51, 13);
     border: solid 2px darkgreen;border-right-width: 0px; border-bottom-width: 0px;border-radius: 3px;}
     .f_select{border-color: darkgreen; padding-left: 2px; margin-left: 5px; margin-right: 5px; 
@@ -33,11 +33,12 @@ tr{border-color: darkgreen;}
     border: solid 3px darkgreen; overflow: auto; border-right-width: 1px; border-bottom-width: 0px;
     border-radius: 3px; position:  relative; }
 .content_pad_page{padding: 0px; border-style: inset; height: 72vh; width: 100%;
-    border: solid 3px darkgreen; overflow: visible; border-right-width: 1px; border-bottom-width: 0px;
+    border: solid 3px darkgreen; overflow-y: scroll; border-right-width: 1px; border-bottom-width: 0px;
     border-radius: 3px; position:  relative; top: -1px; overflow-x:hidden;}
 .content_pad_page_collapsed{padding: 0px; border-style: inset; width: 100%; border: solid 3px darkgreen; 
-    overflow: visible; border-right-width: 1px; border-bottom-width: 0px; border-radius: 3px; 
-    position:  relative; top: -1px; height: 3vh; overflow-x: hidden;}
+    overflow-y: scroll; border-right-width: 1px; border-bottom-width: 0px; border-radius: 3px; 
+    position:  relative; top: -1px; height: 3vh; overflow-x: hidden; background-color: #85fa85}
+.select_page{height: 15px; width: 100%;}
 .head_pg_pad{background-color: #85fa85; height: 25px;display: block; width: 99%; padding-right: 8px;}
 .head_pg_pad span{color: darkgreen; height: 25px;line-height: 25px; padding-left: 20px; font-size: 20px;}
 .menu_pad_op{display: inline-block;float: right;height: 25px; width: 54px; padding-left: 0px;}
@@ -49,14 +50,15 @@ tr{border-color: darkgreen;}
             align-content: center; border-radius: 3px; position:  relative; }
 .m_listing {border: 1px; width: 100%; border-collapse: collapse; table-layout: fixed; 
             word-wrap:break-word; color: darkgreen; }
-.m_listing th{font-size: 20px;}
+.m_listing th{font-size: 16px;}
 .m_listing td{font-size: 15px; vertical-align: middle;padding: 1.5px;padding-left: 25px;}
+.m_listing td.pointing{cursor: pointer;}
 .m_listing th:nth-child(0), .m_listing td:nth-child(0) { width: 180px;}
-.content_menu{display: inline-block; margin-right: 10px; overflow-x:hidden;}
+.content_menu{display: inline-block; margin-right: 9px; overflow-x:hidden;}
 .content_menu span{font-size: 15px; margin-bottom: auto; margin-top: auto;font-style: italic;
-                   text-decoration: underline ; font-size: 14px;}
+                   text-decoration: underline ; font-size: 11px;}
 .content_menu button{display: flex; float: left; justify-content: center; align-items: center; 
-                    width: 120px; border-radius: 8px; background-color: #d7f5d7;border: 0px;
+                    width: 90px; border-radius: 8px; background-color: #d7f5d7; border: 0px;
                     text-align: center;}
 .c_menu_item img{float: left;}
 .actived{ cursor: pointer; color: darkgreen;}
@@ -70,7 +72,12 @@ tr{border-color: darkgreen;}
 	       padding-right: 5px; padding-left: 8px;}
 #dlg_crs form input, #dlg_crs form select{float:right;width: 190px;padding-bottom: 0px; 
         border-color: #85fa85; border-radius: 5px; color:darkgreen; border-top-width: 2px;
-        border-left-width: 2px; border-right-width: 1px; border-bottom-width: 1px;}
+        border-left-width: 2px; border-right-width: 1px; border-bottom-width: 1px;
+        overflow-y: hidden;}
+/*input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {-webkit-appearance: none;}
+input[type='number'] {-moz-appearance: textfield;}*/
+input[type='number'], input[type="number"]:hover, input[type="number"]:focus { appearance: none; 
+-moz-appearance: textfield;}
 #dlg_crs form select{width: 170px;margin-left: 4px; }
 #dlg_crs form input#file-upload{width: 90%;float:left;margin: 8px;}
 #dlg_crs hr{margin: 0px; margin-bottom: 10px;}
@@ -88,3 +95,4 @@ tr{border-color: darkgreen;}
 #detail_upload{float: left; margin-left: 8px;}
 #Result{min-height: 25px; height: auto; width: 100%; margin-bottom: 15px;}
 #Result input{margin-right: 8px;}
+#data_upload{margin-right: 8px;}

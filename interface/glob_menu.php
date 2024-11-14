@@ -16,16 +16,22 @@ if ($mysql) {
         <select id="group" name="item" id="grouplist" class="f_select_d">            
 <?php   $pi->putDataSelectOptions($row,'Все'); ?>
         </select>
-        <!--/datalist-->
         <form>
             <label for="SMD">SMD</label>
             <input id="SMD" type="checkbox">
+            P(w)  ≤
+            <input type="number" class="f_select_s" id="Pw">
             U(v)  ≤
-            <input type="text" class="f_select_s" id="Uv">
+            <input type="number" class="f_select_s" id="Uv">
             I(a)  ≤
-            <input type="text" class="f_select_s" id="Ia">
-            F(MHz)
-            <input type="text" class="f_select_s" id="Fmhz">
+            <input type="number" class="f_select_s" id="Ia">
+            F(mHz)
+            <input type="number" class="f_select_s" id="Fmhz">
             <button class="bonoff" disabled>фильтр</button>
         </form>
 </div>
+<script  type="text/javascript">
+    $(".glob_menu").on('change', function(e){
+        $('.bonoff').attr('disabled',false);
+    });
+</script>
