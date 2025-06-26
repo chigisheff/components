@@ -1,0 +1,21 @@
+pagemain                    ---> viewMain
+    pagemain.p_header       ---> viewMain.pHeader
+    pagemain.p_open         ---> viewMain.pOpen
+    pagemain.p_content      ---> viewMain.pContent
+    pagemain.p_close        ---> viewMain.pFooter
+
+manage_main                 ---> viewDataManager
+glob_menu                   ---> viewGlobalMenu
+q_fields                    ---> modelItemList
+q_interface                 ---> viewTableItem
+q_index_page                ---> modelIndex
+q_oper_page                 ---> modelOperatorIndex
+data_dlg_table_op           ---> modelTableDataOperator
+q_prmtr_item                ---> modelParamItem
+pg_head                     ---> viewHeader
+pg_content                  ---> viewContent
+pg_bottom                   ---> viewFooter
+file_dlg_upload_op          ---> modelOperatorDataSheetUpload
+class_op_dlg                ---> classDlgOper
+
+перетрясти расположение файлов. Классы в class view в interface
