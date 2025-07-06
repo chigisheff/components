@@ -44,7 +44,7 @@ class viewTableItem extends classBase{
                 class="content_menu <?php if (is_null($arraysign)) {echo "disabled";}?>" 
                 id ="<?php echo 'm_' . $i . '_' . $arrayind . '_3'; ?>"
                 value="<?php echo $arrayind; ?>">
-                <img src="img/addcompnt.v1.png" /> 
+                <img src="img/addcompnt.v4.png" /> 
                 <span>Компонент</span> 
             </button>
         </div>
