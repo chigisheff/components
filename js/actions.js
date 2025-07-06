@@ -44,7 +44,7 @@ var win_size = new Array();
         $(own_expand).attr('disabled',true);
     };*/
     
-    $('#expand1, #expand2,#expand3').click(function () {
+    $('#expand1, #expand2, #expand3').click(function () {
         const saved_wnd = $(this).attr('id').slice(-1);// вкладка включающая сработавшую кнопку
         const cr_pad = "#wnd_"+saved_wnd; // получаем Id content_pad_page для обработки
         const new_pad = "#wnd_"+openPage;

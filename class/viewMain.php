@@ -8,7 +8,7 @@ class viewMain{
     public $link_style_reset = "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/reset.css\" media=\"screen\">";
     public $link_styles = "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/m_style.css\" media=\"screen\">";
     public $link_href = "<link rel=\"stylesheet\" type=\"text/css\" href=\"js/jquery-3.7.1.js\">";
-    public $script_src = "<script src=\"js/jquery-3.7.1.js\" ></script> <script src=\"js/actions.js\" ></script>";
+    public $script_src = "<script src=\"js/jquery-3.7.1.js\" ></script>";
     public function pHeader(){
             ?><head>
             <?php echo $this->meta_charset;  ?>
@@ -34,3 +34,4 @@ class viewMain{
     }
 }
 
+/* <script src=\"js/actions.js\" ></script>*/

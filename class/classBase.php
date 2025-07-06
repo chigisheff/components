@@ -6,11 +6,15 @@
  *
  * @author andreych
  */
+
+
 class classBase
 {
     public function getConnect()
     {
-        $db = new mysqli('localhost', 'componentsd', 'JsCyZabq]gJg3!BF', 'components');
+        include 'class/cConfig.php';
+        $p = new cConfig();
+        $db = new mysqli($p->HOST, $p->USERDB, $p->PWDUSRBD, $p->DBNAME);
         if (!$db) {
             return false;
         }
@@ -23,6 +27,11 @@ class classBase
         $sql="INSERT INTO ".$table.' ('.implode(",",$field).') '." VALUES (". implode(",", $value).');';
         $result = mysqli_query($mysql, $sql);//!!!!
         return $result;
+    }
+    public function getFor($connect,$table,$key, $fieldKey,$offset=0) {
+        if(is_null($connect)){return false;}
+        if(is_null($key)||($key == '')){return false;}
+        $sql = 'SELECT * FROM '.$table. ' WHERE `'.$fieldKey.'` = '.$key.' LIMIT 250 OFFSET '.$offset;
     }
     public function LastId($mysql,$table,$id){
         if(is_null($mysql)) { return false;}

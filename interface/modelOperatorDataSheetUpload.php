@@ -3,8 +3,8 @@ if ((count($_FILES)) > 0) {
     $input_name = 'files';
     $path = $_SERVER['DOCUMENT_ROOT'] . '/datasheets/';
     $error = $success = '';
-    require_once '../class/class_op_dlg.php';
-    $p = new class_op_dlg();
+    require_once '../class/classDlgOper.php';
+    $p = new classDlgOper();
     $fname = $_FILES[$input_name];
     $result = $p->compliteLoad($fname);
     if ($result != '') {
@@ -17,7 +17,7 @@ if ((count($_FILES)) > 0) {
                 $success = $response = $newname;
             } 
         }
-} else {    $response = false;} // Продолжаем без сохранения файла
+} else {$response = false;} // Продолжаем без сохранения файла
 header('Content-Type: application/json');
 echo json_encode($response);
 

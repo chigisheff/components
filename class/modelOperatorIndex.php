@@ -9,18 +9,22 @@ require_once '../class/classBase.php';
 class modelOperatorIndex extends classBase
 {
         public $id_key, $cnnct;
-        public function insertToElementList($cnnct, $parameterList){
-            $table = 'element_list';
-            $field = array("u_id","el_name", "box_id", "Pmax","maxU","maxI","maxF","datasheet_way");
+        public function insertToElementList($parameterList){
+            $table = 'componentlist';
+            $field = array("i_cmp","name", "pack_id", "maxP","maxU","maxI","maxF","datasheet");
             
-            $this->InsertRecord($cnnct, $table, $field, $parameterList);
+            $this->InsertRecord($this->cnnct, $table, $field, $parameterList);
+        }
+        public function getListForElement($parameterKey,$keyField){
+            $table = 'itemlist';
+            $res = $this->getFor($this->cnnct, $table, $parameterKey, $keyField);
+            
         }
 
         public function getNewKey($cnnct){
-            $table = 'element_list';
-            $Id = 'i_cod';
-            return $this->LastId($cnnct, $table, $Id);
-            
+            $table = 'componentlist';
+            $Id = 'u_id';
+            return $this->LastId($this->cnnct, $table, $Id);    
         }
         
 }

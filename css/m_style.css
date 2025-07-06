@@ -1,21 +1,22 @@
 body{background-color: #d7f5d7; height: 100%; width: 100%; position: relative;}
 a:link, a:visited, a{color: darkgreen; text-decoration: none;}
-
+button{cursor: pointer;}
+button:disabled{cursor: default;}
 td {border: 2px solid; width: 100%; padding: 5px; text-align: left; border-color: darkgreen;}
-th{border: 2px solid; width: 100%; padding: 2.5px;text-align: center; border-color: darkgreen; 
+th{border: 2px solid; width: 100%; padding: 2.5px; text-align: center; border-color: darkgreen; 
     color: rgb(165, 99, 14);}
 th#elmnt{}
 tr{border-color: darkgreen;} 
 .m_vindow{position:relative; height: 100%; width:98%; margin: 0; padding: 0; border: 0;}
-.H_d{width: 100%; height: 80px; border-color: #85fa85; border-style: inset; display:  block; 
-    justify-content: space-between; border-radius: 6px;border: solid 2px darkgreen;
+.H_d{width: 100%; height: 80px; border-color: #85fa85; border-style: inset; display: block; 
+    justify-content: space-between; border-radius: 6px; border: solid 2px darkgreen;
     border-right-width: 1px; border-bottom-width: 0px;}
 .logo_s{border-right-color: #85fa85; float: left; background-image: url(../img/logos.png);}
 .head_prod{height: 37.5px; color: black; font-style: inherit; display: flex; font-size: larger;
     justify-content: center; align-items: center; float: none; }
 .glob_menu{height: 37.5px; max-height: 37.5px; min-height: 37.5px; float: none; font-size: 16px;
     display: flex; align-items: center; padding-left: 5px; color:rgb(13, 51, 13);
-    border: solid 2px darkgreen;border-right-width: 0px; border-bottom-width: 0px;border-radius: 3px;}
+    border: solid 2px darkgreen; border-right-width: 0px; border-bottom-width: 0px; border-radius: 3px;}
     .f_select{border-color: darkgreen; padding-left: 2px; margin-left: 5px; margin-right: 5px; 
         border-radius: 5px; color:darkgreen; border-top-width: 2px; border-left-width: 2px; 
         border-right-width: 1px; border-bottom-width: 1px; width: 50px;}
@@ -26,67 +27,75 @@ tr{border-color: darkgreen;}
 .glob_menu input{color:darkgreen; border-radius: 5px;}
 .bonoff{ outline: none; user-select: none;  color: rgb(2, 39, 2); background-color: #85fa85; 
     border-top-width: 2px; border-left-width: 2px; border-right-width: 1px; border-bottom-width: 1px;
-    border-color: darkgreen; cursor: pointer; border-radius: 5px; margin-left: 5px;}
-.bonoff:disabled{cursor: not-allowed;}
-
+    border-color: darkgreen; border-radius: 5px; margin-left: 5px;}
 .content_pad{ padding: 0px; padding-top:2px; border-style: inset; height: 75vh; width: 100%; 
     border: solid 3px darkgreen; overflow: auto; border-right-width: 1px; border-bottom-width: 0px;
-    border-radius: 3px; position:  relative; }
+    border-radius: 3px; position: relative; }
 .content_pad_page{padding: 0px; border-style: inset; height: 72vh; width: 100%;
     border: solid 3px darkgreen; overflow-y: scroll; border-right-width: 1px; border-bottom-width: 0px;
-    border-radius: 3px; position:  relative; top: -1px; overflow-x:hidden;}
+    border-radius: 3px; position:  relative; top: -1px; overflow-x: hidden;}
 .content_pad_page_collapsed{padding: 0px; border-style: inset; width: 100%; border: solid 3px darkgreen; 
     overflow-y: scroll; border-right-width: 1px; border-bottom-width: 0px; border-radius: 3px; 
     position:  relative; top: -1px; height: 3vh; overflow-x: hidden; background-color: #85fa85}
 .select_page{height: 15px; width: 100%;}
-.head_pg_pad{background-color: #85fa85; height: 25px;display: block; width: 99%; padding-right: 8px;}
-.head_pg_pad span{color: darkgreen; height: 25px;line-height: 25px; padding-left: 20px; font-size: 20px;}
-.menu_pad_op{display: inline-block;float: right;height: 25px; width: 54px; padding-left: 0px;}
-.menu_pad_op button{width: 25px;height: 25px; background-color: #85fa85;border: 0px;cursor: pointer;}
+.head_pg_pad{background-color: #85fa85; height: 25px; display: block; width: 99%; padding-right: 8px;}
+.head_pg_pad span{color: darkgreen; height: 25px; line-height: 25px; padding-left: 20px; font-size: 20px;}
+.menu_pad_op{display: inline-block; float: right; height: 25px; width: 54px; padding-left: 0px;}
+.menu_pad_op button{width: 25px; height: 25px; background-color: #85fa85; border: 0px;}
 /*.option{width: 50px;}*/
 .bottom_pad{padding: 0px; border: solid 3px darkgreen; bottom: 0; width: 100%;
             height: 10vh; background-color: #85fa85; border-bottom-width: 1px; 
             border-style: inset; border-top-width: 3px; padding-top: 2px; border-right-width: 1px; 
             align-content: center; border-radius: 3px; position:  relative; }
 .m_listing {border: 1px; width: 100%; border-collapse: collapse; table-layout: fixed; 
-            word-wrap:break-word; color: darkgreen; }
+            word-wrap: break-word; color: darkgreen; }
 .m_listing th{font-size: 16px;}
-.m_listing td{font-size: 15px; vertical-align: middle;padding: 1.5px;padding-left: 25px;}
+.m_listing td{font-size: 15px; vertical-align: middle; padding: 1.5px; padding-left: 25px;}
 .m_listing td.pointing{cursor: pointer;}
 .m_listing th:nth-child(0), .m_listing td:nth-child(0) { width: 180px;}
-.content_menu{display: inline-block; margin-right: 9px; overflow-x:hidden;}
-.content_menu span{font-size: 15px; margin-bottom: auto; margin-top: auto;font-style: italic;
+.content_menu{display: inline-block; overflow-x:hidden;}
+.content_menu span{font-size: 15px; margin-bottom: auto; margin-top: auto; font-style: italic;
                    text-decoration: underline ; font-size: 11px;}
 .content_menu button{display: flex; float: left; justify-content: center; align-items: center; 
                     width: 90px; border-radius: 8px; background-color: #d7f5d7; border: 0px;
-                    text-align: center;}
+                    text-align: center; height: 27px;}
+
 .c_menu_item img{float: left;}
 .actived{ cursor: pointer; color: darkgreen;}
-.back_phone{ background-color:transparent; width: 100%; height: 100%; position: absolute;
+.back_phone, .back_phone_DSh{ background-color:transparent; width: 100%; height: 100%; position: absolute;
             top: 0; left: 0; display: none;}
-#dlg_crs{background-color: #d7f5d7; color: darkgreen; height: auto; width: 335px;
+.nuanses, .component, .element{display: none;}
+
+#dlg_crs, #dlg_DSh{background-color: #d7f5d7; color: darkgreen; height: auto; width: 335px;
         text-align: right; padding: 1px; border: 3px solid darkgreen; border-left: 2px; border-top: 2px;
-        border-radius: 5px; color: darkgreen; position: absolute; top: 0; right: 0; bottom: 0; 
+        border-radius: 5px; color: darkgreen; position: absolute; top: 20px; right: 0; bottom: 0; 
         left: 0; margin: auto;}
+#dlg_DSh{width: 85%}
+    #component_name_ds{width: 80%; text-align: center;}
 #dlg_crs form p{width: 95%;text-align: left; height: 18px; align-content:center; padding-bottom: 5px;
 	       padding-right: 5px; padding-left: 8px;}
-#dlg_crs form input, #dlg_crs form select{float:right;width: 190px;padding-bottom: 0px; 
+#dlg_crs form input, #dlg_crs form select{float:right; width: 190px; padding-bottom: 0px; 
         border-color: #85fa85; border-radius: 5px; color:darkgreen; border-top-width: 2px;
         border-left-width: 2px; border-right-width: 1px; border-bottom-width: 1px;
         overflow-y: hidden;}
-/*input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {-webkit-appearance: none;}
-input[type='number'] {-moz-appearance: textfield;}*/
 input[type='number'], input[type="number"]:hover, input[type="number"]:focus { appearance: none; 
 -moz-appearance: textfield;}
 #dlg_crs form select{width: 170px;margin-left: 4px; }
 #dlg_crs form input#file-upload{width: 90%;float:left;margin: 8px;}
 #dlg_crs hr{margin: 0px; margin-bottom: 10px;}
-#dlg_crs h1{display: flex; text-align: center; justify-content: center; align-items: center; 
+#dlg_crs h1, #dlg_DSh h1{display: flex; text-align: center; justify-content: center; align-items: center; 
         width: 65%; height: 25px; float: left;font-size: 18px;}
 #dlg_crs form p img{float:right;}
 #dlg_crs .menu_pad_op{width:25px; display: block;}
 .head_dlg_pad{background-color: #85fa85; height: 25px; display: block; width: 100%; float: left;}
-#collaps1_1{border:0px; padding: 0px; background-color: #85fa85;height: 24px;cursor: pointer;}
+    .nuanses{width: 95%; height: auto; min-height: 75px; text-align: left;font-size: 12px;}
+    .nuanses span{text-align: center; width: 100%; display: inline-block;border-bottom: 1px;font-size: 13px; font-weight: bold; 
+        border-bottom: 1px solid darkgreen;}
+    .nuanses p{width: 43.5%; float: left; text-align: center;}
+    .nuanses p.empty{width: 10px;float: left;}
+    .nuanses p input, .element p input{width: 92%; margin-left: 10px; border-radius: 5px; border-color: #85fa85; float: left; 
+                    margin-bottom: 50px; }
+#collaps1_1, #collaps2_1{border:0px; padding: 0px; background-color: #85fa85; height: 24px;cursor: pointer;}
 .detail_data{padding: 0px; height: 28.8vh; width: 100%; overflow: visible; border-top: 2px;
     border-radius: 3px; position: relative; top: 3px; overflow-x: hidden; overflow-y: scroll; 
     border-left: 2px;}

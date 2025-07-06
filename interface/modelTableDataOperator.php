@@ -6,7 +6,7 @@ header('Accept: application/json');
     $unpackBox= explode('_', $data['array_string']);
     $field[0] = (trim($data['elenent_indx']));
     $field[1] = (trim($data['element_cod']));
-    $field[2] = '';
+    $field[2] = (trim($data['array_string'][0]));
     $field[3] = $data['Pmax'];
     $field[4] = (trim($data['Umax']));
     $field[5] = (trim($data['Imax']));
@@ -21,7 +21,7 @@ header('Accept: application/json');
         $rd_field[7] = (is_null($rd_field[7])) ? "'intro'":$rd_field[7];
         $p->insertToElementList($mysql, $rd_field);
     }
-    $lastRec = $p->getNewKey($mysql);
+    //$lastRec = $p->getNewKey($mysql);
 
 echo json_encode('Информация сохранена'. $field[7]);
 

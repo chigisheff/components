@@ -14,7 +14,7 @@ class modelItemList extends classBase{
         return $rowout;
     }
     public function getPackageList($mysql){
-        $query = "SELECT u_id,packname FROM packagelist ORDER BY packname";
+        $query = "SELECT `u_id`, `packname`, `isSMD` FROM packagelist ORDER BY packname";
         $result = mysqli_query($mysql, $query);
         $i=0;
         while ($row = mysqli_fetch_row($result)) {

@@ -19,27 +19,34 @@ class viewTableItem extends classBase{
 ?>
         <div class="content_menu">
             <button type="button"<?php if (!is_null($arraysign)) {
-                echo " disabled"; } ?> class="content_menu <?php if (is_null($arraysign)) {
-                echo "actived"; } ?>"
+                echo "actived"; } ?> class="content_menu <?php if (is_null($arraysign)) {
+                echo "disabled"; } ?>"
                 id ="<?php echo 'm_' . $i . '_' . $arrayind . '_2'; ?>"
                 value="<?php echo $arrayind; ?>">
                 <img src="img/specificfeaturesobj.v1.png" />
                 <span>Специфика</span> 
             </button>
-            <button type="button"<?php if(!is_null($arraysign)){ echo " disabled";}?>
-                class="content_menu <?php if (is_null($arraysign)) {echo "actived";}?>"
+            <button type="button"<?php if(!is_null($arraysign)){ echo " actived";}?>
+                class="content_menu <?php if (is_null($arraysign)) {echo "disabled";}?>"
                 id ="<?php echo 'm_' . $i . '_' . $arrayind . '_0'; ?>"
                 value="<?php echo $arrayind; ?>">
                 <img src="img/add.v1.png" />
                 <span>Добавить</span> 
             </button>
-            <button type="button"<?php if (is_null($arraysign)) { echo "disabled";}?>
-                class="content_menu <?php if (!is_null($arraysign)) {echo "actived";}?>" 
+            <button type="button"<?php if (!is_null($arraysign)) { echo "actived";}?>
+                class="content_menu <?php if (is_null($arraysign)) {echo "disabled";}?>" 
                 id ="<?php echo 'm_' . $i . '_' . $arrayind . '_1'; ?>"
                 value="<?php echo $arrayind; ?>">
                 <img src="img/redact.v1.png" /> 
                 <span>Изменить</span> 
-            </button>           
+            </button>
+            <button type="button"<?php if (!is_null($arraysign)) { echo "actived";}?>
+                class="content_menu <?php if (is_null($arraysign)) {echo "disabled";}?>" 
+                id ="<?php echo 'm_' . $i . '_' . $arrayind . '_3'; ?>"
+                value="<?php echo $arrayind; ?>">
+                <img src="img/addcompnt.v1.png" /> 
+                <span>Компонент</span> 
+            </button>
         </div>
             <?php
         }
@@ -58,12 +65,12 @@ class viewTableItem extends classBase{
         <tr style="color: darkgreen;">
         <?php
             for($j = 0; $j < $cols;$j++){
-                    ?><td <?php if($j==0){echo 'class = "pointing"';}?>><?php
-                    if($j == $position){
-                        echo $array[$i][$out]; //Размещаем список
-                    }
+          ?><td <?php if($j==0){echo 'class = "pointing"';}?>><?php
+                if($j == $position){
+                    echo $array[$i][$out]; //Размещаем список
+                }
                 $this->putDataColTableTools($menu_y, $menu_pos,$array[$i][0],$array[$i][2],$i,$j, false);
-            ?></td> <?php
+          ?></td> <?php
             }   
     ?></tr> 
     <?php
