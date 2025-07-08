@@ -47,9 +47,10 @@
             <p>Наименование<br>
                 <input type="text" id="NameElement" required />
             </p>
-            <p><button type="button" id="detail_upload" name="datasheet_up" disabled>Datasheet</button></p>
+            <p><button type="button" id="detail_upload" name="datasheet_up">Datasheet</button></p>
         </div>
         <div class="nuanses">
+            <p id = "headDlg"></p>
             <span>Характеристики</span><br>
             <p>Наименование<br>
                 <input type="text" id="NameNuanse_" required />
@@ -59,7 +60,7 @@
                 <input type="text" id="CntNuanse_" required />
             </p>
         </div>
-        <div class="component">
+        <div class="component"> 
             <form enctype="multipart/form-data" id="f_el_list" accept-charset="UTF-8 Windows-1251" method="post" >
                 <hr>
                 <p>Компонент* <input type="text" id="element_cod"  required /></p>
@@ -75,7 +76,7 @@
                 <p>Umax(V)* <input type="number" id="Umax" disabled/></p>
                 <p>Imax(A)* <input type="number" id="Imax" disabled/></p>
                 <p>Fmax(mHz)* <input type="number" id="Fmax" disabled/></p>
-                <p>DataSheet</p>
+                <p>DataSheet</p><hr>
                 <input type="file" id="file-upload" accept=".pdf,.doc,.docx,.xlsx,.xls,.odt,.ods" name="file_push" disabled/>
                 <p></p>
                 <hr>
@@ -131,10 +132,10 @@ var win_size = new Array();
     var old_content_span = "Компоненты : ";
     var m_formData;
     var openPage = 1;
-    
+    var actModeDialog;
+    var arrNuanses = [];
+    var arrNuansesCount = 0;
     $('.m_listing tr').click(function(e){
-        //console.log($(this).index());
-        //console.log($(this).find('td').text());
         var title_tab = ($(this).find('td').eq(0).text()).trim();
         $('#list_three span').text('');
         $($('#list_three span')).text(old_content_span+' '+title_tab);
@@ -149,7 +150,7 @@ var win_size = new Array();
             $('#Fmax').prop('disabled',false);
             $('#file-upload').prop('disabled',false);
             $('#data_upload').prop('disabled',false);
-            $('#detail_upload').prop('disabled',false);
+            $('.component #detail_upload').removeAttr('disabled');
         }
     });
     
@@ -203,42 +204,57 @@ var win_size = new Array();
         const Id = $(this).attr('id');
         const val = $(this).attr('value');
         const funct = Id.slice(-1);
+        actModeDialog = Number(funct);
         var messageDlg;
         Idx_element = (Id.split('_'))[2];
         $("#dlg_crs").attr('data-id',Id);
+        $('.back_phone').css("display","block");
+        win_size = [$('#dlg_crs').width(), $('#dlg_crs').height()];
+        const pos = $('.content_pad_page').offset().top;
+        $('.content_pad_page').scrollTop(-pos);
         switch (funct){
             case '0':
                 messageDlg = 'Новый элемент';
-                
-                $('.element').css('display','block');
+                $('#NameElement').prop('disabled',false).val('');
+                $('.element, .nuanses').css('display','block');
+                $('.nuanses input').prop('disabled',true);
+                $('#element_cod').focus();
                 break;
             case '1':
                 messageDlg = 'Изменение элемента';
-                
+                $('#NameElement').prop('disabled',true).val($('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
+                $('.nuanses input').prop('disabled',false);
                 $('.element, .nuanses').css('display','block');
                 break;
             case '2':
                 messageDlg = 'Специфические параметры';
-                
+                $('.nuanses #headDlg').html('<br>'+$('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
                 $('.nuanses').css('display','block');
+                $('.nuanses p input').prop('disabled',false);
+                var firstOfPair = $('.nuanses p input').first();
+                var lastOfPairs = $('.nuanses p input').last();
+                arrNuanses[arrNuansesCount] = [firstOfPair,lastOfPairs];
+                var idF = $($('.nuanses p input').first().prop('disabled',false)).attr('id')+arrNuansesCount;
+                var idL = $($('.nuanses p input').last().prop('disabled',true)).attr('id')+arrNuansesCount;
+                $($('.nuanses p input').first().prop('disabled',false)).attr('id',idF);
+                $($('.nuanses p input').last().prop('disabled',true)).attr('id',idL);
+
                 break;
             case '3':
                 messageDlg = 'Новый компонент';
-                
+                $('#file-upload').prop('disabled',true);
                 $('.component').css('display','block');
+                
                 break;
         }
         $('#dlg_crs h1').html(messageDlg);
-        $('.back_phone').css("display","block");
-        win_size = [$('#dlg_crs').width(), $('#dlg_crs').height()];
-        const pos = $('.content_pad_page').offset().top;
-        if(funct === '0'){$('#element_cod').focus();}
-        $('.content_pad_page').scrollTop(-pos);
+        
+        
         
         return false;
     });
     // #detail_upload click
-    $("#detail_upload").click(function(){
+    $(".component #detail_upload, #detail_upload").click(function(){
         $("#expand2").click();
         $(".back_phone_DSh").css("display","block");
         console.log($("#element_cod").val());
@@ -278,7 +294,16 @@ var win_size = new Array();
             fill_in(vl,idx);
         }
     };
-    
+    $('.nuanses p input').focusout(function(){
+        
+        if($(this).val().length > 0 && ($(this).attr('id')).indexOf('NameNuanse_') > -1){
+            console.log('оно, вроде');
+            $(arrNuanses[arrNuansesCount][1]).attr('disabled',false);
+        }
+        if($(this).val().length > 0 && $(this).attr('id').indexOf('CntNuanse_')> -1){
+            $('#data_upload').attr('disabled',false);
+        }
+    });
     $('#addbox').mouseover(function(){
         var sign = $("#select_dlg option:selected").text();
         if(sign ==="Не выбран"&& sign ==="Добавить")
