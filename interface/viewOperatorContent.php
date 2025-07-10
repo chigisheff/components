@@ -52,12 +52,17 @@
         <div class="nuanses">
             <p id = "headDlg"></p>
             <span>Характеристики</span><br>
-            <p>Наименование<br>
-                <input type="text" id="NameNuanse_" required />
+            <p class="inputcol1">Наименование<br>
+                
             </p> 
             <p class="empty">&nbsp;<br> &nbsp;</p>
-            <p>Значение<br>
-                <input type="text" id="CntNuanse_" required />
+            <p class="inputcol2">
+               Значение<br>
+                
+            </p>
+            <p class="inputNuanseString">
+                <input type="text" class="nuanse-input" id="NameNuanse_" required />
+                <input type="text" class="nuanse-input" id="CntNuanse_" />
             </p>
         </div>
         <div class="component"> 
@@ -122,7 +127,8 @@
     </div>
 </div>
 <script type="text/javascript">
-var win_size = new Array();
+    
+    var win_size = new Array();
     var blck;
     var ind = 0;
     var Idx_element;
@@ -140,7 +146,8 @@ var win_size = new Array();
         $('#list_three span').text('');
         $($('#list_three span')).text(old_content_span+' '+title_tab);
     });
-    
+    //$(document).on('focus', '.nuanses p input', focus());
+    //$(document).on('blur', '.nuanses p input', blur());
     $('#element_cod').focusout(function(){
         if($('#element_cod').val() !== ''){
             $('#select_dlg').prop('disabled',false).focus();
@@ -231,14 +238,13 @@ var win_size = new Array();
                 $('.nuanses #headDlg').html('<br>'+$('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
                 $('.nuanses').css('display','block');
                 $('.nuanses p input').prop('disabled',false);
-                var firstOfPair = $('.nuanses p input').first();
-                var lastOfPairs = $('.nuanses p input').last();
-                arrNuanses[arrNuansesCount] = [firstOfPair,lastOfPairs];
                 var idF = $($('.nuanses p input').first().prop('disabled',false)).attr('id')+arrNuansesCount;
                 var idL = $($('.nuanses p input').last().prop('disabled',true)).attr('id')+arrNuansesCount;
                 $($('.nuanses p input').first().prop('disabled',false)).attr('id',idF);
                 $($('.nuanses p input').last().prop('disabled',true)).attr('id',idL);
-
+                var firstOfPairs = $('.nuanses p input').first().prop("id");
+                var lastOfPairs = $('.nuanses p input').last().prop("id");
+                arrNuanses[arrNuansesCount] = [firstOfPairs,lastOfPairs];
                 break;
             case '3':
                 messageDlg = 'Новый компонент';
@@ -257,7 +263,6 @@ var win_size = new Array();
     $(".component #detail_upload, #detail_upload").click(function(){
         $("#expand2").click();
         $(".back_phone_DSh").css("display","block");
-        console.log($("#element_cod").val());
         $("#component_name_ds").html('<p> Компонент: '+$("#element_cod").val()+'</p>');
     });
     
@@ -294,16 +299,48 @@ var win_size = new Array();
             fill_in(vl,idx);
         }
     };
-    $('.nuanses p input').focusout(function(){
-        
-        if($(this).val().length > 0 && ($(this).attr('id')).indexOf('NameNuanse_') > -1){
-            console.log('оно, вроде');
-            $(arrNuanses[arrNuansesCount][1]).attr('disabled',false);
+    //$(document).on('focusin', 'input', function() {
+    //console.log('Фокус на элементе:', this);
+    //});
+    $(document).on('focus','.nuanses p.inputNuanseString input.nuanse-input',function() {
+        const $this = $(this);
+        const id = $this.attr('id');
+        if (id.startsWith('NameNuanse_')) {
+            $('#data_upload').prop('disabled', false);
+        } else if (id.startsWith('CntNuanse_')) {
+            $('#data_upload').prop('disabled', true);
         }
-        if($(this).val().length > 0 && $(this).attr('id').indexOf('CntNuanse_')> -1){
-            $('#data_upload').attr('disabled',false);
-        }
+        return false;
     });
+    
+    $(document).on('blur','.nuanses p.inputNuanseString input.nuanse-input',function() {
+    var $this = $(this);
+        const id = $this.attr('id');
+        const value = $this.val();
+        if (value.length > 0 && id.startsWith('NameNuanse_')) {
+            if (arrNuanses[arrNuansesCount] && arrNuanses[arrNuansesCount][1]) {
+                $('#'+arrNuanses[arrNuansesCount][1]).prop('disabled', false);
+                $('#'+arrNuanses[arrNuansesCount][1]).focus();
+            }
+        } else if (value.length >= 0 && id.startsWith('CntNuanse_')) {
+                if (!arrNuanses[arrNuansesCount] || !$('.inputcol1').length || !$('.inputcol2').length) {
+                    console.error('Ошибка: необходимые элементы не найдены или arrNuanses не инициализирован');
+                    return;
+                }
+                let prevValue = $('#'+arrNuanses[arrNuansesCount][0]).val();
+                arrNuansesCount++;
+            $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required>`);
+            $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="CntNuanse_${arrNuansesCount}">`);        
+                arrNuanses[arrNuansesCount] = [
+                    'NameNuanse_' + arrNuansesCount,
+                    'CntNuanse_' + arrNuansesCount
+                    ];
+                $('#'+arrNuanses[arrNuansesCount][0]).val(prevValue);
+                $('#'+arrNuanses[arrNuansesCount][0]).focus();
+            }
+            return false;
+    });
+    
     $('#addbox').mouseover(function(){
         var sign = $("#select_dlg option:selected").text();
         if(sign ==="Не выбран"&& sign ==="Добавить")

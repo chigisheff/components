@@ -93,10 +93,14 @@ input[type='number'], input[type="number"]:hover, input[type="number"]:focus { a
     .nuanses{width: 95%; height: auto; min-height: 75px; text-align: left;font-size: 12px;}
     .nuanses span{text-align: center; width: 100%; display: inline-block;border-bottom: 1px;font-size: 13px; font-weight: bold; 
         border-bottom: 1px solid darkgreen;}
-    .nuanses p{width: 43.5%; float: left; text-align: center; margin-bottom: 50px;}
+    .nuanses p{width: 43.5%; float: left; text-align: center; }
     .nuanses p.empty{width: 10px;float: left;}
-    .nuanses p input, .element p input{width: 92%; margin-left: 10px; border-radius: 5px; border-color: #85fa85; float: left; 
-                     }
+    .nuanses p.inputNuanseString {width:95%; margin-left: 5px;}
+    .nuanses p.inputNuanseString input{width:45%;}
+    .nuanses p.inputNuanseString input:first-child{float: left;}
+    .nuanses p.inputNuanseString input:last-child{float: right;}
+    .inputNuanseString div{width: 100%;}
+    .element p input{width: 92%; margin-left: 10px; border-radius: 5px; border-color: #85fa85; float: left;}
 #collaps1_1, #collaps2_1{border:0px; padding: 0px; background-color: #85fa85; height: 24px;cursor: pointer;}
 .detail_data{padding: 0px; height: 28.8vh; width: 100%; overflow: visible; border-top: 2px;
     border-radius: 3px; position: relative; top: 3px; overflow-x: hidden; overflow-y: scroll; 
