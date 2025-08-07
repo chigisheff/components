@@ -97,8 +97,6 @@ input[type='number'], input[type="number"]:hover, input[type="number"]:focus { a
     .nuanses p.empty{width: 10px;float: left;}
     .nuanses p.inputNuanseString {width:95%; margin-left: 5px;}
     .nuanses p.inputNuanseString input{width:45%;}
-    .nuanses p.inputNuanseString input:first-child{float: left;}
-    .nuanses p.inputNuanseString input:last-child{float: right;}
     .inputNuanseString div{width: 100%;}
     .element p input{width: 92%; margin-left: 10px; border-radius: 5px; border-color: #85fa85; float: left;}
 #collaps1_1, #collaps2_1{border:0px; padding: 0px; background-color: #85fa85; height: 24px;cursor: pointer;}

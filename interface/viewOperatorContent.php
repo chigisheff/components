@@ -127,7 +127,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    
+    var menu_action;
     var win_size = new Array();
     var blck;
     var ind = 0;
@@ -219,6 +219,7 @@
         win_size = [$('#dlg_crs').width(), $('#dlg_crs').height()];
         const pos = $('.content_pad_page').offset().top;
         $('.content_pad_page').scrollTop(-pos);
+        menu_action = funct;
         switch (funct){
             case '0':
                 messageDlg = 'Новый элемент';
@@ -249,8 +250,7 @@
             case '3':
                 messageDlg = 'Новый компонент';
                 $('#file-upload').prop('disabled',true);
-                $('.component').css('display','block');
-                
+                $('.component').css('display','block');               
                 break;
         }
         $('#dlg_crs h1').html(messageDlg);
@@ -266,20 +266,30 @@
         $("#component_name_ds").html('<p> Компонент: '+$("#element_cod").val()+'</p>');
     });
     
-    function clearForm(){
-        $('.component, .nuanses, .element, .nuanses').css('display','none');
-        $('.nuanses input').val('');
-        $('#element_cod,#Pmax,#Umax,#Imax,#Fmax').val('');
-        $('#Pmax,#Umax,#Imax,#Fmax').prop('disabled',true);
-        $('№select_dlg').prop('disabled','disabled');
-        $('#select_dlg option').prop('selected',false);
-        ind=0;
+
+    function clearForm() {
+        
+        $('.component, .nuanses, .element').css('display', 'none');
+        $('.nuanses input').val('').remove(); // Удаляем все динамические поля
+        $('.nuanses').append(`
+                <p class="inputNuanseString">
+                <input type="text" class="nuanse-input" id="NameNuanse_0" required>
+                <input type="text" class="nuanse-input" id="CntNuanse_0">
+            </p>
+        `); // Восстанавливаем начальную пару полей
+        arrNuanses = [[$('#NameNuanse_0'), $('#CntNuanse_0')]];
+        arrNuansesCount = 0;
+        $('#element_cod, #Pmax, #Umax, #Imax, #Fmax').val('');
+        $('#Pmax, #Umax, #Imax, #Fmax').prop('disabled', true);
+        $('#select_dlg').prop('disabled', true);
+        $('#select_dlg option').prop('selected', false);
+        ind = 0;
         $('#Result').empty();
         inputcontent = [];
         $('#select_dlg option:first').text('Не выбран');
-    };
-    function clearFormDS(){
-        console.log('form datasheet closed');
+        };
+        function clearFormDS(){
+            console.log('form datasheet closed');
     };
     
     $("#collaps1_1").click(function (){
@@ -314,7 +324,7 @@
     });
     
     $(document).on('blur','.nuanses p.inputNuanseString input.nuanse-input',function() {
-    var $this = $(this);
+        var $this = $(this);
         const id = $this.attr('id');
         const value = $this.val();
         if (value.length > 0 && id.startsWith('NameNuanse_')) {
@@ -329,7 +339,7 @@
                 }
                 let prevValue = $('#'+arrNuanses[arrNuansesCount][0]).val();
                 arrNuansesCount++;
-            $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required>`);
+            $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required> `);
             $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="CntNuanse_${arrNuansesCount}">`);        
                 arrNuanses[arrNuansesCount] = [
                     'NameNuanse_' + arrNuansesCount,
@@ -358,14 +368,11 @@
     });
     
     function ay_yay_ay(obj){
-        //prev = $(obj).css('backgroundColor');
-        blck = setTimeout(function(){
-            $(obj).css('backgroundColor',"red");
-            setInterval(function(){
-            blck = setTimeout(function(){$(obj).css('backgroundColor','');});
-            },1000);
-        },500);
-            
+        $(obj).css('backgroundColor', 'red');
+        setTimeout(() => {
+            $(obj).css('backgroundColor', '');
+            $(obj).focus();
+        }, 1000);            
         $(obj).focus();
     };
    
