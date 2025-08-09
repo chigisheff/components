@@ -1,12 +1,15 @@
 <?php
 /**
- * Description of q_prmtr_item
+ * Description of modelParamItem
  *
  * @author andreych
  */
 class modelParamItem extends classBase
 {
     public function getItemList(){
+        
+    }
+    public function putItemParamList(){
         
     }
     
