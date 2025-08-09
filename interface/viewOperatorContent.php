@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="element">
-            <p>Наименование<br>
+            <p><span>Наименование</span><br>
                 <input type="text" id="NameElement" required />
             </p>
             <p><button type="button" id="detail_upload" name="datasheet_up">Datasheet</button></p>
@@ -420,36 +420,67 @@
             $(this).css('backgroundColor','');
         };
     });
-    
+    function readField(){
+        
+    };
     $("#data_upload").click(function(event){
         event.stopPropagation();
         event.preventDefault();
-        if($("#select_dlg option:selected").text()==='Не выбран'){ay_yay_ay("#select_dlg");return false;}
-        if ($('#Umax').val()===''){ay_yay_ay('#Umax');return false;}
-        if ($('#Imax').val()===''){ay_yay_ay('#Imax');return false;}
-        if ($('#Fmax').val()===''){ay_yay_ay('#Fmax');return false;}
-        var t_data = new FormData();
-        t_data.append('files',$("#file-upload")[0].files[0]);
-        $.ajax({
-            url:'interface/modelOperatorDataSheetUpload.php',
-            type:"POST",
-            cache:false,
-            contentType:false,
-            processData:false,
-            data:t_data,
-            dataType:'json',
-            success: function(msg){ // при наличии внешнего datasheet от производителя компонента сохраняем 
-                //его, при отсутствии сохраняем в базе данных более подробные характеристики 
-                console.log(msg); // отладочное. Если загружен DSh, то будет true, ну или не будет ничего, если файл не загружен
-                arr2string = inputcontent.join('_');
-                prepareFormData();
-                saveFormData();
-                clearForm();
-            },
-            error: function(error){
-                alert(error);
-            }
-        });
-        $('#file-upload').val(null);
+        var furl='';
+        if(menu_action === 3){
+            furl = 'interface/modelOperatorDataSheetUpload.php';
+            if($("#select_dlg option:selected").text()==='Не выбран'){ay_yay_ay("#select_dlg");return false;}
+            if ($('#Umax').val()===''){ay_yay_ay('#Umax');return false;}
+            if ($('#Imax').val()===''){ay_yay_ay('#Imax');return false;}
+            if ($('#Fmax').val()===''){ay_yay_ay('#Fmax');return false;}
+            var t_data = new FormData();
+            t_data.append('files',$("#file-upload")[0].files[0]);
+            $.ajax({
+                url:furl,
+                type:"POST",
+                cache:false,
+                contentType:false,
+                processData:false,
+                data:t_data,
+                dataType:'json',
+                success: function(msg){ // при наличии внешнего datasheet от производителя компонента сохраняем 
+                    //его, при отсутствии сохраняем в базе данных более подробные характеристики 
+                    console.log(msg); // отладочное. Если загружен DSh, то будет true, ну или не будет ничего, если файл не загружен
+                    arr2string = inputcontent.join('_');
+                    prepareFormData();
+                    saveFormData();
+                    clearForm();
+                },
+                error: function(error){
+                    alert(error);
+                }
+            });
+            $('#file-upload').val(null);
+        } else {
+            let action ='';
+            switch (menu_action){
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+            };
+            $.ajax({
+                url: url,
+                type: "POST",
+                action: action,
+                dataType: 'json',
+                data: readField(),
+                success: function(response) {
+                    alert(response);
+                },
+                error: function(error){
+                    alert(error,' Ошибка сохранения');
+                }
+            });
+        }
+         
      });
+ 
 </script>
