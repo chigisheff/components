@@ -477,7 +477,7 @@
         speechClue('Требуется числовое значение в поле');
     });
     
-    function readFieldDial(){
+    function collectionFieldDial(){
         //readyNuanceForSave
         
     };
@@ -518,7 +518,7 @@
             });
             $('#file-upload').val(null);
         } else {
-            readFieldDial();
+            collectionFieldDial();
             let action ='';
             
             switch (menu_action){
