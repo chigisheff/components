@@ -140,7 +140,11 @@
     var openPage = 1;
     var actModeDialog;
     var arrNuanses = [];
+    var raw_DialogArray =[];
     var arrNuansesCount = 0;
+    var readyNuanceForSave =[];
+    var interrupt_off = false;
+    
     $('.m_listing tr').click(function(e){
         var title_tab = ($(this).find('td').eq(0).text()).trim();
         $('#list_three span').text('');
@@ -254,9 +258,6 @@
                 break;
         }
         $('#dlg_crs h1').html(messageDlg);
-        
-        
-        
         return false;
     });
     // #detail_upload click
@@ -273,9 +274,9 @@
         $('.nuanses input').val('').remove(); // Удаляем все динамические поля
         $('.nuanses').append(`
                 <p class="inputNuanseString">
-                <input type="text" class="nuanse-input" id="NameNuanse_0" required>
-                <input type="text" class="nuanse-input" id="CntNuanse_0">
-            </p>
+                    <input type="text" class="nuanse-input" id="NameNuanse_0" required>
+                    <input type="text" class="nuanse-input" id="CntNuanse_0">
+                </p>
         `); // Восстанавливаем начальную пару полей
         arrNuanses = [[$('#NameNuanse_0'), $('#CntNuanse_0')]];
         arrNuansesCount = 0;
@@ -286,6 +287,7 @@
         ind = 0;
         $('#Result').empty();
         inputcontent = [];
+        interrupt_off=false;
         $('#select_dlg option:first').text('Не выбран');
         };
         function clearFormDS(){
@@ -308,45 +310,91 @@
         if(ind===0 && vl !== "Не выбран"){
             fill_in(vl,idx);
         }
-    };
-    //$(document).on('focusin', 'input', function() {
-    //console.log('Фокус на элементе:', this);
-    //});
+    };   
+    
     $(document).on('focus','.nuanses p.inputNuanseString input.nuanse-input',function() {
-        const $this = $(this);
-        const id = $this.attr('id');
-        if (id.startsWith('NameNuanse_')) {
-            $('#data_upload').prop('disabled', false);
-        } else if (id.startsWith('CntNuanse_')) {
-            $('#data_upload').prop('disabled', true);
+        if(!interrupt_off){
+            const $this = $(this);
+            const id = $this.attr('id');
+            if (id.startsWith('NameNuanse_')) {
+                $('#data_upload').prop('disabled', false);
+            } else if (id.startsWith('CntNuanse_')) {
+                speechClue('Двойной клик по "наименование" прерывает режим ввода');
+                $('#data_upload').prop('disabled', true);
+            }
         }
         return false;
+    });
+    
+    $(document).on('dblclick','.nuanses p.inputNuanseString input.nuanse-input',function(){
+        var $this = $(this);
+        const id = $this.attr('id');
+        if(id.startsWith('NameNuanse_')){
+            speechClue('Пары, содержащие пустые поля не сохраняются.');
+            interrupt_off = true;
+            $('#data_upload').prop('disabled', false);
+            $('#data_upload').focus();   
+        } else {
+            $this.focus();
+            speechClue('Для удаления очистите поле "Значение".');
+        }
+        
     });
     
     $(document).on('blur','.nuanses p.inputNuanseString input.nuanse-input',function() {
         var $this = $(this);
         const id = $this.attr('id');
         const value = $this.val();
-        if (value.length > 0 && id.startsWith('NameNuanse_')) {
-            if (arrNuanses[arrNuansesCount] && arrNuanses[arrNuansesCount][1]) {
-                $('#'+arrNuanses[arrNuansesCount][1]).prop('disabled', false);
-                $('#'+arrNuanses[arrNuansesCount][1]).focus();
+        const counter = arrNuanses.length-1;
+        const index = +id.substr(id.indexOf('_')+1);
+        var prevValue;
+        var lastValue;
+        const dutyIndex = ( index === counter ) ? arrNuansesCount: index; // переключение между режимом ввода и редактирования
+        
+        if (value.length === 0 && id.startsWith('CntNuanse_')){ // не допускаем пустого значения характеристики
+            
+            if(value.length === 0){
+                speechClue('Прерывание ввода характеристик - двойной клик по любому полю "наименование"');
             }
+            
+            $('#'+arrNuanses[dutyIndex][1]).prop('disabled', false);
+            $('#'+arrNuanses[dutyIndex][1]).focus();    
+            return false;
+        }
+        
+        prevValue = $('#'+arrNuanses[dutyIndex][0]).val();
+        lastValue = $('#'+arrNuanses[dutyIndex][1]).val();
+        if(prevValue.length >0 && lastValue.length > 0){
+            raw_DialogArray[dutyIndex] = [prevValue, lastValue];
+        }
+        
+        if (value.length > 0 && id.startsWith('NameNuanse_')) {
+            if (arrNuanses[dutyIndex] && arrNuanses[dutyIndex][1]) {
+                $('#'+arrNuanses[dutyIndex][1]).prop('disabled', false);
+                $('#'+arrNuanses[dutyIndex][1]).focus();
+            }
+            
         } else if (value.length >= 0 && id.startsWith('CntNuanse_')) {
-                if (!arrNuanses[arrNuansesCount] || !$('.inputcol1').length || !$('.inputcol2').length) {
-                    console.error('Ошибка: необходимые элементы не найдены или arrNuanses не инициализирован');
+                
+                if (!arrNuanses[arrNuansesCount]) {
+                    console.error('Ошибка: arrNuanses не инициализирован');
                     return;
                 }
-                let prevValue = $('#'+arrNuanses[arrNuansesCount][0]).val();
-                arrNuansesCount++;
-            $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required> `);
-            $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="CntNuanse_${arrNuansesCount}">`);        
-                arrNuanses[arrNuansesCount] = [
-                    'NameNuanse_' + arrNuansesCount,
-                    'CntNuanse_' + arrNuansesCount
-                    ];
-                $('#'+arrNuanses[arrNuansesCount][0]).val(prevValue);
-                $('#'+arrNuanses[arrNuansesCount][0]).focus();
+                
+                if(index === counter){ //  блок работает в режиме ввода новой записи
+                    
+                    prevValue = $('#'+arrNuanses[arrNuansesCount][0]).val();
+                    arrNuansesCount++;
+                    $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required> `);
+                    $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="CntNuanse_${arrNuansesCount}">`);        
+                    arrNuanses[arrNuansesCount] = [
+                        'NameNuanse_' + arrNuansesCount,
+                        'CntNuanse_' + arrNuansesCount
+                        ];
+                    $('#'+arrNuanses[arrNuansesCount][0]).val(prevValue); // повторение последнего наименования характеристики
+                    $('#'+arrNuanses[arrNuansesCount][0]).focus();
+                }
+                
             }
             return false;
     });
@@ -375,6 +423,13 @@
         }, 1000);            
         $(obj).focus();
     };
+    
+    function speechClue(clue){
+        $('.clue').text(clue); 
+        setTimeout(() => {
+            $('.clue').text('');
+        }, 6000);
+    }
    
     function fill_in(vl,idx){
             inputcontent[ind] = [idx,vl];
@@ -419,13 +474,17 @@
             ay_yay_ay(this);
             $(this).css('backgroundColor','');
         };
+        speechClue('Требуется числовое значение в поле');
     });
-    function readField(){
+    
+    function readFieldDial(){
+        //readyNuanceForSave
         
     };
     $("#data_upload").click(function(event){
         event.stopPropagation();
         event.preventDefault();
+        speechClue('Сохранение данных');
         var furl='';
         if(menu_action === 3){
             furl = 'interface/modelOperatorDataSheetUpload.php';
@@ -448,16 +507,20 @@
                     console.log(msg); // отладочное. Если загружен DSh, то будет true, ну или не будет ничего, если файл не загружен
                     arr2string = inputcontent.join('_');
                     prepareFormData();
+                    speechClue('Данные сохранены!');
                     saveFormData();
                     clearForm();
                 },
                 error: function(error){
+                    speechClue('Ошибка сохранения данных');
                     alert(error);
                 }
             });
             $('#file-upload').val(null);
         } else {
+            readFieldDial();
             let action ='';
+            
             switch (menu_action){
                 case 0:
                     break;
@@ -467,11 +530,11 @@
                     break;
             };
             $.ajax({
-                url: url,
+                url: furl,
                 type: "POST",
                 action: action,
                 dataType: 'json',
-                data: readField(),
+                data: readFieldDial(),
                 success: function(response) {
                     alert(response);
                 },

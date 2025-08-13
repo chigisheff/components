@@ -47,6 +47,8 @@ tr{border-color: darkgreen;}
             height: 10vh; background-color: #85fa85; border-bottom-width: 1px; 
             border-style: inset; border-top-width: 3px; padding-top: 2px; border-right-width: 1px; 
             align-content: center; border-radius: 3px; position:  relative; }
+    .help_bottom_pad{display: block; width: 60%; min-height: 30px; margin-left: auto; margin-right: auto;}
+        .clue{width: 100%; text-align: center;}
 .m_listing {border: 1px; width: 100%; border-collapse: collapse; table-layout: fixed; 
             word-wrap: break-word; color: darkgreen; }
 .m_listing th{font-size: 16px;}
