@@ -142,7 +142,6 @@
     var arrNuanses = [];
     var raw_DialogArray =[];
     var arrNuansesCount = 0;
-    var readyNuanceForSave =[];
     var interrupt_off = false;
     
     $('.m_listing tr').click(function(e){
@@ -317,10 +316,10 @@
             const $this = $(this);
             const id = $this.attr('id');
             if (id.startsWith('NameNuanse_')) {
-                $('#data_upload').prop('disabled', false);
+                    $('#data_upload').prop('disabled', false);
             } else if (id.startsWith('CntNuanse_')) {
-                speechClue('Двойной клик по "наименование" прерывает режим ввода');
                 $('#data_upload').prop('disabled', true);
+                speechClue('Двойной клик по "наименование" прерывает режим ввода');
             }
         }
         return false;
@@ -478,9 +477,32 @@
     });
     
     function collectionFieldDial(){
-        //readyNuanceForSave
-        
+        for(var i = 0; i < arrNuansesCount; i++){ // чистим пустые поля
+            var firstValue, secondValue;
+            firstValue = $('#'+arrNuanses[i][0]).val().trim();
+            secondValue = $('#'+arrNuanses[i][1]).val().trim();
+            if(firstValue === "" || secondValue === ""){
+                raw_DialogArray.splice(i,1);
+            } else {
+                raw_DialogArray[i] = [firstValue, secondValue]; // заменяем отредактированные поля
+            }
+        }
+        var p = raw_DialogArray.sort();
+        raw_DialogArray = [];
+        for(var i=0; i < p.length; i++){
+            var countr = 0;
+            for(var j = 0; j < p.length; j++){ // подсчитываем количество вхождений нюансов
+                if(p[i][0] === p[j][0]){
+                    countr = countr + 1;
+                }
+            }
+            if( countr === 1 ){ // удаляем нюансы с единственной вариацией
+                p.splice(i,1); 
+            }
+        }
+        return p;
     };
+    
     $("#data_upload").click(function(event){
         event.stopPropagation();
         event.preventDefault();
@@ -504,7 +526,7 @@
                 dataType:'json',
                 success: function(msg){ // при наличии внешнего datasheet от производителя компонента сохраняем 
                     //его, при отсутствии сохраняем в базе данных более подробные характеристики 
-                    console.log(msg); // отладочное. Если загружен DSh, то будет true, ну или не будет ничего, если файл не загружен
+                    console.log(msg); // отладочное. Если загружен DSh, то будет true, ну или не будет, если файл не загружен
                     arr2string = inputcontent.join('_');
                     prepareFormData();
                     speechClue('Данные сохранены!');
@@ -534,7 +556,7 @@
                 type: "POST",
                 action: action,
                 dataType: 'json',
-                data: readFieldDial(),
+                data: collectionFieldDial(),
                 success: function(response) {
                     alert(response);
                 },

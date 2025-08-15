@@ -97,7 +97,7 @@ input[type='number'], input[type="number"]:hover, input[type="number"]:focus { a
         border-bottom: 1px solid darkgreen;}
     .nuanses p{width: 43.5%; float: left; text-align: center; }
     .nuanses p.empty{width: 10px;float: left;}
-    .nuanses p.inputNuanseString {width:95%; margin-left: 5px;}
+    .nuanses p.inputNuanseString {width:95%; margin-left: 5px; margin-bottom: 15px;}
     .nuanses p.inputNuanseString input{width:45%;}
     .inputNuanseString div{width: 100%;}
     .element p span{margin-right: 10px;}
