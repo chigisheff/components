@@ -268,16 +268,8 @@
     
 
     function clearForm() {
+        $('.component, .nuanses, .element').css('display', 'none');
         if(actModeDialog === 3){
-            $('.component, .nuanses, .element').css('display', 'none');
-            $('.nuanses input').val('').remove(); // Удаляем все динамические поля
-            $('.inputNuanseString').append(`
-                <input type="text" class="nuanse-input" id="NameNuanse_0" required>
-                <input type="text" class="nuanse-input" id="CntNuanse_0">
-            `); // Восстанавливаем начальную пару полей
-            arrNuanses = [];
-            arrNuansesCount = 0;
-        } else {
             $('#element_cod, #Pmax, #Umax, #Imax, #Fmax').val('');
             $('#Pmax, #Umax, #Imax, #Fmax').prop('disabled', true);
             $('#select_dlg').prop('disabled', true);
@@ -287,6 +279,17 @@
             inputcontent = [];
             interrupt_off=false;
             $('#select_dlg option:first').text('Не выбран');
+            
+            
+        } else {
+            
+            $('.nuanses input').val('').remove(); // Удаляем все динамические поля
+            $('.inputNuanseString').append(`
+                        <input type="text" class="nuanse-input" id="NameNuanse_0" required>
+                        <input type="text" class="nuanse-input" id="CntNuanse_0">
+            `); // Восстанавливаем начальную пару полей
+            arrNuanses = [];
+            arrNuansesCount = 0;
         }
     };
         function clearFormDS(){
