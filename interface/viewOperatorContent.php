@@ -268,6 +268,7 @@
     
 
     function clearForm() {
+        $('.component, .nuanses, .element').css('display', 'none');
         if(actModeDialog === 3){
             $('#element_cod, #Pmax, #Umax, #Imax, #Fmax').val('');
             $('#Pmax, #Umax, #Imax, #Fmax').prop('disabled', true);
@@ -281,7 +282,7 @@
             
             
         } else {
-            $('.component, .nuanses, .element').css('display', 'none');
+            
             $('.nuanses input').val('').remove(); // Удаляем все динамические поля
             $('.inputNuanseString').append(`
                         <input type="text" class="nuanse-input" id="NameNuanse_0" required>
