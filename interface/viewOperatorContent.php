@@ -226,6 +226,7 @@
         switch (funct){
             case '0':
                 messageDlg = 'Новый элемент';
+                $('p:has(button)').css('display','none');
                 $('#NameElement').prop('disabled',false).val('');
                 $('.element, .nuanses').css('display','block');
                 $('.nuanses input').prop('disabled',true);
@@ -233,12 +234,14 @@
                 break;
             case '1':
                 messageDlg = 'Изменение элемента';
+                $('p:has(button)').css('display','none');
                 $('#NameElement').prop('disabled',true).val($('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
                 $('.nuanses input').prop('disabled',false);
                 $('.element, .nuanses').css('display','block');
                 break;
             case '2':
                 messageDlg = 'Специфические параметры';
+                $('p:has(button)').css('display','none');
                 $('.nuanses #headDlg').html('<br>'+$('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
                 $('.nuanses').css('display','block');
                 $('.nuanses p input').prop('disabled',false);
@@ -251,6 +254,7 @@
                 arrNuanses[arrNuansesCount] = [firstOfPairs,lastOfPairs];
                 break;
             case '3':
+                $('p:has(button)').css('display','block');
                 messageDlg = 'Новый компонент';
                 $('#file-upload').prop('disabled',true);
                 $('.component').css('display','block');               
