@@ -18,7 +18,17 @@ if (isset($_POST['action'])&&isset($_POST['data'])&&!empty($_POST['data'])) { //
     }
     
 }
-
+function unpackingParameters(){
+    
+}
 function putData($dataset){
     
+}
+function getNuanseListForItem($dataIn){
+    $id = unpackingParameters($dataIn);
+    include modelIndex.php;
+    $p = new modelIndex();
+    $dataonrequest = $p->GetDataElements($p->getConnect(), $id);
+    
+    return $dataonrequest;
 }

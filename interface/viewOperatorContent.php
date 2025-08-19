@@ -246,6 +246,7 @@
                 $('.nuanses #headDlg').html('<br>'+$('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
                 $('.nuanses').css('display','block');
                 $('.nuanses p input').prop('disabled',false);
+                fillingRO_IfPresentNuanses();
                 var idF = $($('.nuanses p input').first().prop('disabled',false)).attr('id')+arrNuansesCount;
                 var idL = $($('.nuanses p input').last().prop('disabled',true)).attr('id')+arrNuansesCount;
                 $($('.nuanses p input').first().prop('disabled',false)).attr('id',idF);
@@ -264,6 +265,10 @@
         $('#dlg_crs h1').html(messageDlg);
         return false;
     });
+    function fillingRO_IfPresentNuanses(){
+        const id = Idx_element;
+        
+    }
     // #detail_upload click
     $(".component #detail_upload, #detail_upload").click(function(){
         $("#expand2").click();
@@ -290,8 +295,8 @@
             
             $('.nuanses input').val('').remove(); // Удаляем все динамические поля
             $('.inputNuanseString').append(`
-                        <input type="text" class="nuanse-input" id="NameNuanse_0" required>
-                        <input type="text" class="nuanse-input" id="CntNuanse_0">
+                <input type="text" class="nuanse-input" id="NameNuanse_0" required>
+                <input type="text" class="nuanse-input" id="CntNuanse_0">
             `); // Восстанавливаем начальную пару полей
             arrNuanses = [];
             arrNuansesCount = 0;
@@ -447,6 +452,7 @@
             $('#select_dlg option:first').prop('selected',true);
             $('#select_dlg option:first').text('Добавить');
     };
+    //function fillingIfPresentNuanses(){}
     
     function saveFormData(){ // Управление диалогом на первой вкладке страницы реализация меню в списке элементов 
         $.ajax({
@@ -485,6 +491,7 @@
     });
     
     function collectionFieldDial(){
+        var complex;
         for(var i = 0; i < arrNuansesCount; i++){ // чистим пустые поля
             var firstValue, secondValue;
             firstValue = $('#'+arrNuanses[i][0]).val().trim();
@@ -508,7 +515,10 @@
                 p.splice(i,1); 
             }
         }
-        return p;
+        return complex = [
+            $('#NameElement').val(),
+            { id: Idx_element, items: p }
+        ];
     };
     
     $("#data_upload").click(function(event){
