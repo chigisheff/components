@@ -212,6 +212,7 @@
     
     $(".content_menu").click(function (){
         const Id = $(this).attr('id');
+        if (typeof Id === 'undefined'){return false;}
         const val = $(this).attr('value');
         const funct = Id.slice(-1);
         actModeDialog = Number(funct);
