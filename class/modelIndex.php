@@ -18,6 +18,9 @@ class modelIndex extends classBase {
         }
         return $rowout;
     }
+    public function PutDataNuanse($connection,$keyItem,$data){
+        
+    }
     public function GetNuanceForItem($connection, $keyItem)
     {
         if ($keyItem > 0) {

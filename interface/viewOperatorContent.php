@@ -227,7 +227,7 @@
         switch (funct){
             case '0':
                 messageDlg = 'Новый элемент';
-                $('p:has(button)').css('display','none');
+                $('p:has(#detail_upload)').hide();
                 $('#NameElement').prop('disabled',false).val('');
                 $('.element, .nuanses').css('display','block');
                 $('.nuanses input').prop('disabled',true);
@@ -235,14 +235,14 @@
                 break;
             case '1':
                 messageDlg = 'Изменение элемента';
-                $('p:has(button)').css('display','none');
+                $('p:has(#detail_upload)').hide();
                 $('#NameElement').prop('disabled',true).val($('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
                 $('.nuanses input').prop('disabled',false);
                 $('.element, .nuanses').css('display','block');
                 break;
             case '2':
                 messageDlg = 'Специфические параметры';
-                $('p:has(button)').css('display','none');
+                $('p:has(#detail_upload)').hide();
                 $('.nuanses #headDlg').html('<br>'+$('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
                 $('.nuanses').css('display','block');
                 $('.nuanses p input').prop('disabled',false);
@@ -267,15 +267,14 @@
     });
     function fillingRO_IfPresentNuanses(){
         const id = Idx_element;
-        
     }
+    
     // #detail_upload click
     $(".component #detail_upload, #detail_upload").click(function(){
         $("#expand2").click();
         $(".back_phone_DSh").css("display","block");
         $("#component_name_ds").html('<p> Компонент: '+$("#element_cod").val()+'</p>');
     });
-    
 
     function clearForm() {
         $('.component, .nuanses, .element').css('display', 'none');
@@ -289,10 +288,7 @@
             inputcontent = [];
             interrupt_off=false;
             $('#select_dlg option:first').text('Не выбран');
-            
-            
         } else {
-            
             $('.nuanses input').val('').remove(); // Удаляем все динамические поля
             $('.inputNuanseString').append(`
                 <input type="text" class="nuanse-input" id="NameNuanse_0" required>
@@ -302,14 +298,16 @@
             arrNuansesCount = 0;
         }
     };
-        function clearFormDS(){
-            console.log('form datasheet closed');
+    
+    function clearFormDS(){
+        console.log('form datasheet closed');
     };
     
     $("#collaps1_1").click(function (){
         $('.back_phone').css("display","none");
         clearForm();
     });
+    
     $("#collaps2_1").click(function (){
         $('.back_phone_DSh').css("display","none");
         clearFormDS();
@@ -387,14 +385,12 @@
             }
             
         } else if (value.length >= 0 && id.startsWith('CntNuanse_')) {
-                
                 if (!arrNuanses[arrNuansesCount]) {
                     console.error('Ошибка: arrNuanses не инициализирован');
                     return;
                 }
                 
                 if(index === counter){ //  блок работает в режиме ввода новой записи
-                    
                     prevValue = $('#'+arrNuanses[arrNuansesCount][0]).val();
                     arrNuansesCount++;
                     $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required> `);
@@ -406,7 +402,6 @@
                     $('#'+arrNuanses[arrNuansesCount][0]).val(prevValue); // повторение последнего наименования характеристики
                     $('#'+arrNuanses[arrNuansesCount][0]).focus();
                 }
-                
             }
             return false;
     });
@@ -558,23 +553,24 @@
             });
             $('#file-upload').val(null);
         } else {
-            collectionFieldDial();
+            var data = collectionFieldDial();
             let action ='';
-            
+            furl = "interface/modelOperatorComponentSave.php";
             switch (menu_action){
-                case 0:
+                case '0':
                     break;
-                case 1:
+                case '1':
                     break;
-                case 2:
+                case '2':
+                    action = 'putData';
                     break;
             };
             $.ajax({
                 url: furl,
                 type: "POST",
-                action: action,
                 dataType: 'json',
-                data: collectionFieldDial(),
+                data: { data: JSON.stringify(data),
+                action: action},
                 success: function(response) {
                     alert(response);
                 },
