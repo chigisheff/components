@@ -15,12 +15,34 @@ class modelOperatorIndex extends classBase
             
             $this->InsertRecord($this->cnnct, $table, $field, $parameterList);
         }
+        public function isNotPresentNuanse($param) {
+            
+        }
         public function getListForElement($parameterKey,$keyField){
             $table = 'itemlist';
             $res = $this->getFor($this->cnnct, $table, $parameterKey, $keyField);
             
         }
-
+        public function GetDataElements($connect,$id){
+            $table = 'nuanses';
+            $fieldKey = 'i_element';
+            
+            $response = $this->getFor($connect, $table, $id, $fieldKey);
+            
+            mysqli_close($connect);
+            
+            return $response;
+        }
+        public function PutDataNuanse($connection,$data){
+            $table = 'nuanses';
+            $field = array("i_element","name","value");
+            for($i=0; $i < count($data);$i++){
+              $result  =  $this->InsertRecord($connection, $table, $field, $data[$i]);
+            }
+            mysqli_close($connection);
+            return $result;
+        }
+        
         public function getNewKey($cnnct){
             $table = 'componentlist';
             $Id = 'u_id';

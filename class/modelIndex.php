@@ -1,14 +1,14 @@
 <?php
-require_once "class/classBase.php";
+require_once "../class/classBase.php";
 
 class modelIndex extends classBase {
     public function GetDataElements($connection,$keyItem)
     {
         if($keyItem < 16777214){
-            $query = "SELECT * FROM itemlist ORDER BY el_name WHERE i_id =". $keyItem.'"';
+            $query = "SELECT * FROM itemlist ORDER BY nameitem WHERE u_id =". $keyItem.'"';
         }
         else {
-            $query = "SELECT * FROM itemlist ORDER BY el_name";
+            $query = "SELECT * FROM itemlist ORDER BY nameitem";
         }
         $result = mysqli_query($connection, $query);
         $i = 0;
@@ -18,19 +18,17 @@ class modelIndex extends classBase {
         }
         return $rowout;
     }
-    public function PutDataNuanse($connection,$keyItem,$data){
-        
-    }
+    
     public function GetNuanceForItem($connection, $keyItem)
     {
         if ($keyItem > 0) {
-            $query = "SELECT nuances.nuance, nuances.i_nu, nuances.v_nuance"
-                . "FROM nuances "
-                . "WHERE el_key = ".$keyItem." "
-                . "ORDER BY nuance, v_nuance ";
+            $query = "SELECT nuanses.u_nuanse, nuanses.i_element, nuanses.value"
+                . "FROM nuanses "
+                . "WHERE i_element = ".$keyItem." "
+                . "ORDER BY name, value ";
         } else {
-            $query = "SELECT nuances.nuance, nuances.i_nu, nuances.v_nuance "
-                . "FROM nuances ORDER BY nuance, v_nuance";
+            $query = "SELECT SELECT nuances.u_nuanse, nuances.i_element, nuances.value "
+                . "FROM nuanses ORDER BY name, value";
         }
         $result = mysqli_query($connection, $query);
         $i = 0;

@@ -6,13 +6,11 @@
  *
  * @author andreych
  */
-
-
 class classBase
 {
     public function getConnect()
-    {
-        include 'class/cConfig.php';
+    {   
+        include 'cConfig.php';
         $p = new cConfig();
         $db = new mysqli($p->HOST, $p->USERDB, $p->PWDUSRBD, $p->DBNAME);
         if (!$db) {
@@ -24,14 +22,16 @@ class classBase
         if(is_null($mysql)){return false;}
         if(!is_array($field)){return false;}
         if(!is_array($value)){return false;}
-        $sql="INSERT INTO ".$table.' ('.implode(",",$field).') '." VALUES (". implode(",", $value).');';
-        $result = mysqli_query($mysql, $sql);//!!!!
+        $sql="INSERT INTO ".$table.' ('.implode(",",$field).') '." VALUES (". implode(", ", $value).');';
+        $result = mysqli_query($mysql, $sql);
         return $result;
     }
-    public function getFor($connect,$table,$key, $fieldKey,$offset=0) {
+    public function getFor($connect,$table,$key, $fieldKey, $offset=0) {
         if(is_null($connect)){return false;}
         if(is_null($key)||($key == '')){return false;}
-        $sql = 'SELECT * FROM '.$table. ' WHERE `'.$fieldKey.'` = '.$key.' LIMIT 250 OFFSET '.$offset;
+        $sql = 'SELECT * FROM '.$table.' WHERE `'.$fieldKey.'` = '.$key.' LIMIT 250 OFFSET '.$offset;
+        $result = mysqli_query($connect, $sql);
+        return $result;
     }
     public function LastId($mysql,$table,$id){
         if(is_null($mysql)) { return false;}
@@ -39,6 +39,7 @@ class classBase
         $result = mysqli_query($mysql, $sql);
         return mysql_fetch_array($result); 
     }
+    
     public function prepareArrayToNull($field)
     {
         $lengthArray = count($field);
