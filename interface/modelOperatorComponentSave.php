@@ -14,7 +14,8 @@ if (isset($_POST['action'])&&isset($_POST['data'])&&!empty($_POST['data'])) { //
     if (!in_array($function, 
         [
             'putData',
-            'getNuanseListForItem'
+            'getNuanseListForItem',
+            'putItemAndHimData'
         ]))
     {
         $response = ['status' => 'error', 'message' => 'Вызвана недопустимая функция'];
@@ -45,25 +46,53 @@ function unpackingParameters($dataIn){
     $nameItem = $dataIn[0];
     $idkey = $dataIn[1]['id'];
     $idarray = $dataIn[1]['items'];
-    for($i=0;$i<count($idarray);$i++){
+    if($idkey === 0){
+        $p = new modelOperatorIndex();
+        $idkey = $p->getIdItems($p->getConnect(),$nameItem);
+    }
+    for($i=0;$i < count($idarray);$i++){
         $repackedArray[$i][0] = $idkey;
-        for($j=0;$j<count($idarray);$j++){
+        for($j=0;$j < count($idarray[$i]);$j++){
             $repackedArray[$i][$j+1]="'".$idarray[$i][$j]."'";
         }
     }
     return ['idkey' => $idkey, 'idname' =>$nameItem, 'arrayRecord' => $repackedArray ];
 }
+function unpackItemSet($dataIn){ // Работает
+    for($i=0;$i<count($dataIn);$i++){
+        $dataIn[$i] = '"'.$dataIn[$i].'"';
+    }
+    return $dataIn;
+}
 function putData($dataset){
-    $dataSet = unpackingParameters($dataset);
-    
+    $dataSet = unpackingParameters($dataset);    
     $p = new modelOperatorIndex();
     $result = $p->PutDataNuanse($p->getConnect(), $dataSet['arrayRecord']);
     header('Content-Type: application/json');
     if($result){
-        echo json_encode(['status' => 'success', 'message' =>'Данные сохранены' ]);
+        echo json_encode(['status' => 'success', 'message' => 'Данные сохранены' ]);
     } else {
-        echo json_encode(['status' => 'error','message' => 'Проблемы при записи информации']);
+        echo json_encode(['status' => 'error', 'message' => 'Проблемы при записи информации']);
+    }
+}
+function putItemAndHimData($dataset){
+    $dataItem = unpackItemSet($dataset[0]);
+    $p = new modelOperatorIndex();
+    $result = $p->PutComponent($p->getConnect(), $dataItem);
+        if($result){
+            $dataSet = unpackingParameters($dataset[1]);
+            if(count($dataSet['arrayRecord'])>0){
+                $resultMore = $p->PutDataNuanse($p->getConnect(), $dataSet['arrayRecord']);
+                if($resultMore){
+                    echo json_encode(['status' => 'success', 'message' =>'Массив сохранен' ]);
+                } else {
+                    echo json_encode(['status' => 'error','message' => 'Проблемы при сохранении массива нюансов']);
+                }
+            echo json_encode(['status' => 'success', 'message' =>'Данные сохранены' ]);
+        } else {
+            echo json_encode(['status' => 'error', 'message' =>'Проблемы при сохранении элемента']);
         }
+    }
 }
 function getNuanseListForItem($dataIn){
     $id = json_encode($dataIn);    

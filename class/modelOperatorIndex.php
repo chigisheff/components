@@ -8,45 +8,46 @@
 require_once '../class/classBase.php';
 class modelOperatorIndex extends classBase
 {
-        public $id_key, $cnnct;
-        public function insertToElementList($parameterList){
-            $table = 'componentlist';
-            $field = array("i_cmp","name", "pack_id", "maxP","maxU","maxI","maxF","datasheet");
-            
-            $this->InsertRecord($this->cnnct, $table, $field, $parameterList);
+    public $id_key, $cnnct;
+    public function insertToElementList($parameterList){
+        $table = 'componentlist';
+        $field = array("i_cmp","name", "pack_id", "maxP","maxU","maxI","maxF","datasheet");
+
+        $this->InsertRecord($this->cnnct, $table, $field, $parameterList);
+    }
+    public function getListForElement($parameterKey,$keyField){
+        $table = 'itemlist';
+        $res = $this->getFor($this->cnnct, $table, $parameterKey, $keyField);
+
+    }
+    public function GetDataElements($connect,$id){
+        $table = 'nuanses';
+        $fieldKey = 'i_element';
+        $response = $this->getFor($connect, $table, $id, $fieldKey);
+        mysqli_close($connect);
+        return $response;
+    }
+    public function getIdItems($connection,$name){
+        $table = 'itemlist';
+        $uId = 'u_id';
+        $res = $this->getIdForName($connection, $table, $uId, $name);
+        mysqli_close($connection);
+        return $res;
+    }
+    public function PutDataNuanse($connection,$data){
+        $table = 'nuanses';
+        $field = array("i_element","name","value");
+        for($i=0; $i < count($data);$i++){
+          $result  =  $this->InsertRecord($connection, $table, $field, $data[$i]);
         }
-        public function isNotPresentNuanse($param) {
-            
-        }
-        public function getListForElement($parameterKey,$keyField){
-            $table = 'itemlist';
-            $res = $this->getFor($this->cnnct, $table, $parameterKey, $keyField);
-            
-        }
-        public function GetDataElements($connect,$id){
-            $table = 'nuanses';
-            $fieldKey = 'i_element';
-            
-            $response = $this->getFor($connect, $table, $id, $fieldKey);
-            
-            mysqli_close($connect);
-            
-            return $response;
-        }
-        public function PutDataNuanse($connection,$data){
-            $table = 'nuanses';
-            $field = array("i_element","name","value");
-            for($i=0; $i < count($data);$i++){
-              $result  =  $this->InsertRecord($connection, $table, $field, $data[$i]);
-            }
-            mysqli_close($connection);
-            return $result;
-        }
-        
-        public function getNewKey($cnnct){
-            $table = 'componentlist';
-            $Id = 'u_id';
-            return $this->LastId($this->cnnct, $table, $Id);    
-        }
-        
+        mysqli_close($connection);
+        return $result;
+    }
+    public function PutComponent($connection,$data){
+        $table = 'itemlist';
+        $field = array("nameitem","engname","tabledata");
+        $result = $this->InsertRecord($connection, $table,$field,$data);
+        mysqli_close($connection);
+        return $result;
+    }
 }

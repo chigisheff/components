@@ -1,6 +1,5 @@
 <?php
-
-
+include 'cConfig.php';
 /**
  * Description of classBase
  *
@@ -10,7 +9,6 @@ class classBase
 {
     public function getConnect()
     {   
-        include 'cConfig.php';
         $p = new cConfig();
         $db = new mysqli($p->HOST, $p->USERDB, $p->PWDUSRBD, $p->DBNAME);
         if (!$db) {
@@ -33,15 +31,15 @@ class classBase
         $result = mysqli_query($connect, $sql);
         return $result;
     }
-    public function LastId($mysql,$table,$id){
-        if(is_null($mysql)) { return false;}
-        $sql = "SELECT * FROM ".$table." WHERE ".$id."=LAST_INSERT_ID();";
-        $result = mysqli_query($mysql, $sql);
-        return mysql_fetch_array($result); 
+    public function getIdForName($connect,$table,$uId,$name){
+        if(is_null($connect)){return false;}
+        if(is_null($name)||($table == '')||is_null($uId)){return false;}
+        $sql = 'SELECT `'.$uId.'` FROM '.$table.' WHERE nameitem = "'.$name.'"';
+        $result = mysqli_query($connect, $sql);
+        $row = mysqli_fetch_array($result);
+        return $row[0];
     }
-    
-    public function prepareArrayToNull($field)
-    {
+    public function prepareArrayToNull($field){
         $lengthArray = count($field);
         for ($i = 0; $i < $lengthArray; $i++) {
             $p1 = ($field[$i] == '')? 'Y':'N';
