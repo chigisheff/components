@@ -39,6 +39,21 @@ class classBase
         $row = mysqli_fetch_array($result);
         return $row[0];
     }
+    
+    public function getAllFrom($connection, $table,$orderby ='', $limit=250, $offset=0) {
+        if(is_null($connect)){return false;}
+        if($table === ''){return false;}
+        $sql = 'SELECT * FROM '.$table. ' ORDER BY '.$orderby.'  LIMIT '.$limit.' OFFSET '.$offset;
+        $result = mysqli_query($connection, $sql);
+        if($result){
+            while ($row = mysqli_fetch_row($result)) {
+            $rowout[]= $row;
+            }
+        } else {
+            return false;
+        }
+        return $rowout;
+    }
     public function prepareArrayToNull($field){
         $lengthArray = count($field);
         for ($i = 0; $i < $lengthArray; $i++) {

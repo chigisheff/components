@@ -15,9 +15,10 @@ if (isset($_POST['action'])&&isset($_POST['data'])&&!empty($_POST['data'])) { //
         [
             'putData',
             'getNuanseListForItem',
-            'putItemAndHimData'
-        ]))
-    {
+            'putItemAndHimData',
+            'getItemListUpdated'
+        ])
+    )   {
         $response = ['status' => 'error', 'message' => 'Вызвана недопустимая функция'];
         echo json_encode($response);
         exit;
@@ -103,4 +104,9 @@ function getNuanseListForItem($dataIn){
         $result[] = [$row['name'],$row['value']];
     }
     return json_encode($result);
+}
+function getItemListUpdated($plug) {
+    $p = new modelOperatorIndex();
+    $response = $p->getAllItems($p->getConnect(), $plug['limmit'], $plug['offset']);
+    return json_encode($response);
 }

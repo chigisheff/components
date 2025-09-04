@@ -61,8 +61,8 @@
                 
             </p>
             <p class="inputNuanseString">
-                <input type="text" class="nuanse-input" id="NameNuanse_" required />
-                <input type="text" class="nuanse-input" id="CntNuanse_" />
+                <input type="text" class="nuanse-input" maxlength="22" id="NameNuanse_" required />
+                <input type="text" class="nuanse-input" maxlength="22" id="CntNuanse_" />
             </p>
         </div>
         <div class="component"> 
@@ -144,6 +144,7 @@
     var raw_DialogArray =[];
     var arrNuansesCount = 0;
     var interrupt_off = false;
+    var updRes = {limmit:250,offset: 0};
     
     $('.m_listing tr').click(function(e){
         var title_tab = ($(this).find('td').eq(0).text()).trim();
@@ -344,8 +345,8 @@
             $('#EngNameElement').prev().remove();
             $('#EngNameElement').remove();
             $('.inputNuanseString').append(`
-                <input type="text" class="nuanse-input" id="NameNuanse_" required>
-                <input type="text" class="nuanse-input" id="CntNuanse_">
+                <input type="text" class="nuanse-input" maxlength="22" id="NameNuanse_" required>
+                <input type="text" class="nuanse-input" maxlength="22" id="CntNuanse_">
             `); // Восстанавливаем начальную пару полей
             arrNuanses = [];
             arrNuansesCount = 0;
@@ -459,8 +460,8 @@
                 if(index === counter){ //  блок работает в режиме ввода новой записи
                     prevValue = $('#'+arrNuanses[arrNuansesCount][0]).val();
                     arrNuansesCount++;
-                    $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required> `);
-                    $('.nuanses p.inputNuanseString').append(`<input type="text" class="nuanse-input" id="CntNuanse_${arrNuansesCount}">`);        
+                    $('.nuanses p.inputNuanseString').append(`<input type="text" maxlength="22" class="nuanse-input" id="NameNuanse_${arrNuansesCount}" required> `);
+                    $('.nuanses p.inputNuanseString').append(`<input type="text" maxlength="22" class="nuanse-input" id="CntNuanse_${arrNuansesCount}">`);        
                     arrNuanses[arrNuansesCount] = [
                         'NameNuanse_' + arrNuansesCount,
                         'CntNuanse_' + arrNuansesCount
@@ -513,8 +514,23 @@
             $('#select_dlg option:first').prop('selected',true);
             $('#select_dlg option:first').text('Добавить');
     };
-    //function fillingIfPresentNuanses(){}
-    
+    //function UpdateItemList()
+    function UpdateItemList(){
+        $.ajax({
+            url:'interface/modelTableDataOperator.php',
+            type:'POST',
+            cache: true,
+            data:{data: JSON.stringify(updRes),
+                action: 'getItemListUpdated'},
+            success: function(response) {
+                    console.log("Данные получены");
+                       
+                },
+                error: function(error){
+                    console.log(error,' Ошибка сохранения');
+                }
+        });
+    }
     function saveFormData(){ // Управление диалогом на первой вкладке страницы реализация меню в списке элементов 
         $.ajax({
             url:'interface/modelTableDataOperator.php',
@@ -661,13 +677,21 @@
                 action: action},
                 success: function(response) {
                     console.log(response);
+                    if(menu_action ===2 ){
+                        UpdateItemList();
+                    }
                 },
                 error: function(error){
                     console.log(error,' Ошибка сохранения');
                 }
             });
+            
+            
+            clearForm();
+            speechClue('Данные сохранены!');
         }
          
      });
+     
  
 </script>

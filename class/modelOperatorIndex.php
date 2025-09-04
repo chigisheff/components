@@ -34,6 +34,13 @@ class modelOperatorIndex extends classBase
         mysqli_close($connection);
         return $res;
     }
+    public function getAllItems($connection, $limmit, $offset){
+        $table = 'itemlist';
+        $order = 'nameitem';
+        $result = $this->getAllFrom($connection, $table, $order, $limmit, $offset);
+        mysqli_close($connection);
+        return $result;        
+    }
     public function PutDataNuanse($connection,$data){
         $table = 'nuanses';
         $field = array("i_element","name","value");
