@@ -41,7 +41,7 @@ class classBase
     }
     
     public function getAllFrom($connection, $table,$orderby ='', $limit=250, $offset=0) {
-        if(is_null($connect)){return false;}
+        if(is_null($connection)){return false;}
         if($table === ''){return false;}
         $sql = 'SELECT * FROM '.$table. ' ORDER BY '.$orderby.'  LIMIT '.$limit.' OFFSET '.$offset;
         $result = mysqli_query($connection, $sql);

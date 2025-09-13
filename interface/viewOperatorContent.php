@@ -219,6 +219,7 @@
         actModeDialog = Number(funct);
         var messageDlg;
         Idx_element = (Id.split('_'))[2];
+        let string_element = $(this).closest('tr').find('td:first-child').text();
         $("#dlg_crs").attr('data-id',Id);
         $('.back_phone').css("display","block");
         win_size = [$('#dlg_crs').width(), $('#dlg_crs').height()];
@@ -230,10 +231,11 @@
                 messageDlg = 'Новый элемент';
                 Idx_element = 0;
                 $('p:has(#detail_upload)').hide();
+                $('#headDlg').text('');
                 $('#NameElement').prop('disabled',false).val('');
                 $('#NameElement') // Добавим недостающие поля для itemlist
                         .after('<span>Префикс таблицы</span><br><input type="text" id="TableName" required>')
-                        .after('<span>Eng</span><br><input  type="text" id="EngNameElement" required>');
+                        .after('<span>Eng</span><br><input type="text" id="EngNameElement" required>');
                 $('.element, .nuanses').css('display','block');
                 $('.nuanses input').prop('disabled',true);
                 $('#element_cod').focus();
@@ -248,14 +250,14 @@
             case '1':
                 messageDlg = 'Изменение элемента';
                 $('p:has(#detail_upload)').hide();
-                $('#NameElement').prop('disabled',true).val($('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
+                $('#NameElement').prop('disabled',true).val(string_element);
                 $('.element, .nuanses').css('display','block');
                 $('.nuanses p input').prop('disabled',false);
                 break;
             case '2':
                 messageDlg = 'Специфические параметры';
                 $('p:has(#detail_upload)').hide();
-                $('.nuanses #headDlg').html('<br>'+$('.m_listing tr:eq('+Idx_element+') td:eq(0)').text());
+                $('.nuanses #headDlg').html('<br>'+string_element);
                 $('.nuanses').css('display','block');
                 $('.nuanses p input').prop('disabled',false);
                 fillingRO_IfPresentNuanses();
@@ -274,6 +276,7 @@
                 $('.component').css('display','block');               
                 break;
         }
+        string_element='';
         $('#dlg_crs h1').html(messageDlg);
         return false;
     });
@@ -282,7 +285,7 @@
     try {
         await getNuansePresent(id); // Ждём выполнения
         if (arrPresentNuanse.length) {
-            console.log(arrPresentNuanse); // Для дебага
+            //console.log(arrPresentNuanse); // Для дебага
             $('.inputcol2').after("<p class='outNuanseString'></p>");
             for(i=0;i<arrPresentNuanse.length;i++){
                 $('.outNuanseString').append('<p> '+ arrPresentNuanse[i][0]+'</p> <p>'+arrPresentNuanse[i][1]+'</p>');
@@ -324,6 +327,7 @@
 
     function clearForm() {
         $('.component, .nuanses, .element').css('display', 'none');
+        
         if(actModeDialog === 3){
             $('#element_cod, #Pmax, #Umax, #Imax, #Fmax').val('');
             $('#Pmax, #Umax, #Imax, #Fmax').prop('disabled', true);
@@ -351,6 +355,7 @@
             arrNuanses = [];
             arrNuansesCount = 0;
         }
+        $('.back_phone').css('display','none');
     };
     
     function clearFormDS(){
@@ -425,8 +430,8 @@
         var prevValue;
         var lastValue;
         const dutyIndex = ( index === counter ) ? arrNuansesCount: index; // переключение между режимом ввода и редактирования
-        console.log(this.id);
-        console.log($(this).val().trim().length);
+        //console.log(this.id);
+        //console.log($(this).val().trim().length);
         
         if (value.length === 0 && id.startsWith('CntNuanse_')){ // не допускаем пустого значения характеристики
             if(value.length === 0){
@@ -517,13 +522,14 @@
     //function UpdateItemList()
     function UpdateItemList(){
         $.ajax({
-            url:'interface/modelTableDataOperator.php',
+            url:'interface/modelOperatorComponentSave.php',
             type:'POST',
             cache: true,
             data:{data: JSON.stringify(updRes),
-                action: 'getItemListUpdated'},
+                action: 'getItemListAfterUpdate'},
             success: function(response) {
                     console.log("Данные получены");
+                    console.log(response);
                        
                 },
                 error: function(error){
@@ -533,7 +539,7 @@
     }
     function saveFormData(){ // Управление диалогом на первой вкладке страницы реализация меню в списке элементов 
         $.ajax({
-            url:'interface/modelTableDataOperator.php',
+            url:'interface/modelOperatorComponentSave.php',
             type:'POST',
             cache: false,
             processData:true,
@@ -677,7 +683,7 @@
                 action: action},
                 success: function(response) {
                     console.log(response);
-                    if(menu_action ===2 ){
+                    if( menu_action === "0" ){
                         UpdateItemList();
                     }
                 },

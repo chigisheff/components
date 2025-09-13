@@ -16,7 +16,7 @@ if (isset($_POST['action'])&&isset($_POST['data'])&&!empty($_POST['data'])) { //
             'putData',
             'getNuanseListForItem',
             'putItemAndHimData',
-            'getItemListUpdated'
+            'getItemListAfterUpdate'
         ])
     )   {
         $response = ['status' => 'error', 'message' => 'Вызвана недопустимая функция'];
@@ -83,16 +83,12 @@ function putItemAndHimData($dataset){
         if($result){
             $dataSet = unpackingParameters($dataset[1]);
             if(count($dataSet['arrayRecord'])>0){
-                $resultMore = $p->PutDataNuanse($p->getConnect(), $dataSet['arrayRecord']);
-                if($resultMore){
-                    echo json_encode(['status' => 'success', 'message' =>'Массив сохранен' ]);
-                } else {
-                    echo json_encode(['status' => 'error','message' => 'Проблемы при сохранении массива нюансов']);
-                }
-            echo json_encode(['status' => 'success', 'message' =>'Данные сохранены' ]);
-        } else {
-            echo json_encode(['status' => 'error', 'message' =>'Проблемы при сохранении элемента']);
+                $p->PutDataNuanse($p->getConnect(), $dataSet['arrayRecord']);
+                
+            } else {
+            return json_encode(['status' => 'error', 'message' =>'Проблемы при сохранении элемента']);
         }
+        return json_encode(['status' => 'success', 'message' =>'Элемент сохранен']);
     }
 }
 function getNuanseListForItem($dataIn){
@@ -105,7 +101,7 @@ function getNuanseListForItem($dataIn){
     }
     return json_encode($result);
 }
-function getItemListUpdated($plug) {
+function getItemListAfterUpdate($plug) {
     $p = new modelOperatorIndex();
     $response = $p->getAllItems($p->getConnect(), $plug['limmit'], $plug['offset']);
     return json_encode($response);
