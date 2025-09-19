@@ -146,7 +146,6 @@
     var interrupt_off = false;
     var updRes = {limmit:250,offset: 0};
     $(document).on('click', '.m_listing tr', function(e){
-    //$('.m_listing tr').click(function(e){
         var title_tab = ($(this).find('td').eq(0).text()).trim();
         $('#list_three span').text('');
         $($('#list_three span')).text(old_content_span+' '+title_tab);
@@ -285,14 +284,27 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
     try {
         await getNuansePresent(id); // Ждём выполнения
         if (arrPresentNuanse.length) {
-            //console.log(arrPresentNuanse); // Для дебага
             $('.inputcol2').after("<p class='outNuanseString'></p>");
-            for(i=0;i<arrPresentNuanse.length;i++){
+            for(let i=0;i<arrPresentNuanse.length;i++){
                 $('.outNuanseString').append('<p> '+ arrPresentNuanse[i][0]+'</p> <p>'+arrPresentNuanse[i][1]+'</p>');
             }
         }
         } catch (error) {
             console.error('Ошибка в fillingRO_IfPresentNuanses:', error);
+        }
+    }
+    async function fillingRW_IfPresentNuanses(){
+        const id = Idx_element;
+        try {
+            await getNuansePresent(id);
+            if(arrPresentNuanse.length){
+                for(let i=0; i<arrPresentNuanse.length;i++){
+                    
+                }
+            }
+        
+        } catch (error) {
+            console.error('Ошибка в fillingRW_IfPresentNuanses:', error);
         }
     }
     function getNuansePresent(data){
