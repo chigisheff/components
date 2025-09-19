@@ -252,6 +252,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                 $('#NameElement').prop('disabled',true).val(string_element);
                 $('.element, .nuanses').css('display','block');
                 $('.nuanses p input').prop('disabled',false);
+                fillingRW_IfPresentNuanses();
                 break;
             case '2':
                 messageDlg = 'Специфические параметры';
@@ -295,14 +296,31 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
     }
     async function fillingRW_IfPresentNuanses(){
         const id = Idx_element;
+        let arrInput = $('.nuanse-input');
+        $(arrInput[0]).attr('id','NameNuanse_'+'0');
+        $(arrInput[1]).attr('id','CntNuanse_'+'0');
+        //arrNuansesCount = 0;
         try {
             await getNuansePresent(id);
             if(arrPresentNuanse.length){
                 for(let i=0; i<arrPresentNuanse.length;i++){
-                    
+                    arrNuanses[i]=[`NameNuanse_${i}`,`CntNuanse_${i}`];
+                    //arrNuansesCount=arrNuansesCount+1;
+                    if(i>0){
+                        $('.inputNuanseString').append(`
+                            <input type="text" class="nuanse-input" maxlength="22" id="NameNuanse_${i}" required>
+                            <input type="text" class="nuanse-input" maxlength="22" id="CntNuanse_${i}">
+                        `);
+                    };
+                    let a = $(`#NameNuanse_${i}`);
+                    let b = $(`#CntNuanse_${i}`);
+                    $(a).val(arrPresentNuanse[i][0]);
+                    $(b).val(arrPresentNuanse[i][1]);
+                
+                   
                 }
             }
-        
+            $('#NameNuanse_0').focus();
         } catch (error) {
             console.error('Ошибка в fillingRW_IfPresentNuanses:', error);
         }
@@ -652,7 +670,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                 }
             }
             if( countr === 1 ){ // удаляем нюансы с единственной вариацией
-                
+                // здесь добавить ввод единственного значения, если вариант есть в ранее введенных из таблицы БД, если нет - удалить
                 p.splice(i,1); 
             }
         }
@@ -672,7 +690,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             if($("#select_dlg option:selected").text()==='Не выбран'){ay_yay_ay("#select_dlg");return false;}
             if ($('#Umax').val()===''){ay_yay_ay('#Umax');return false;}
             if ($('#Imax').val()===''){ay_yay_ay('#Imax');return false;}
-            if ($('#Fmax').val()===''){ay_yay_ay('#Fmax');return false;}
+            //if ($('#Fmax').val()===''){ay_yay_ay('#Fmax');return false;}
             var t_data = new FormData();
             t_data.append('files',$("#file-upload")[0].files[0]);
             $.ajax({
@@ -688,8 +706,8 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     console.log(msg); // отладочное. Если загружен DSh, то будет true, ну или не будет, если файл не загружен
                     arr2string = inputcontent.join('_');
                     prepareFormData();
-                    speechClue('Данные сохранены!');
                     saveFormData();
+                    speechClue('Данные сохранены!');
                     clearForm();
                 },
                 error: function(error){
@@ -709,6 +727,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     action = 'putItemAndHimData';
                     break;
                 case '1':
+                    
                     break;
                 case '2':
                     fulldata = data;
