@@ -52,20 +52,16 @@ tr{border-color: darkgreen;}
 .m_listing {border: 1px; width: 100%; border-collapse: collapse; table-layout: fixed; 
             word-wrap: break-word; color: darkgreen; }
 .m_listing th{font-size: 16px;}
-.m_listing td{font-size: 15px; vertical-align: middle; padding: 1.5px; padding-left: 0;}
-.m_listing td.pointing{cursor: pointer; padding: 0; border:0;}
-.m_listing td.content_menu{cursor: pointer; padding: 0; border:0;}
-
+.m_listing td{font-size: 15px; vertical-align: middle; padding: 1.5px; padding-left: 0; border: 2px solid;}
+.m_listing td.pointing{cursor: pointer; padding-left: 20px; border: 2px solid; height: 33px;}
+td.content_menu, td.content_menu_inline{cursor: pointer; border: 2px solid;height: 33px;}
 .m_listing th:nth-child(0), .m_listing td:nth-child(0) { width: 180px;}
-.content_menu{display: inline-block; overflow-x:hidden; border: 0px;}
+.content_menu, .content_menu_inline {display: inline-block; overflow-x:hidden; border: 2px;padding-left: 20px; }
 .content_menu span{font-size: 15px; margin-bottom: auto; margin-top: auto; font-style: italic;
                    text-decoration: underline; font-size: 11px;}
-.content_menu button{display: flex; float: left; justify-content: center; align-items: center; 
+.content_menu button, .content_menu_inline button{display: flex; float: left; justify-content: center; align-items: center; 
                     width: 90px; border-radius: 8px; background-color: #d7f5d7; border: 0px;
-                    text-align: center; height: 27px;}
-.content_menu_inline {display: block; height: 27px;}
-.content_menu_inline button{padding-left: 25px;}
-
+                    text-align: center; }
 .c_menu_item img{float: left;}
 .actived{ cursor: pointer; color: darkgreen;}
 .back_phone, .back_phone_DSh{ background-color:transparent; width: 100%; height: 100%; position: absolute;

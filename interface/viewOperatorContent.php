@@ -145,8 +145,8 @@
     var arrNuansesCount = 0;
     var interrupt_off = false;
     var updRes = {limmit:250,offset: 0};
-    
-    $('.m_listing tr').click(function(e){
+    $(document).on('click', '.m_listing tr', function(e){
+    //$('.m_listing tr').click(function(e){
         var title_tab = ($(this).find('td').eq(0).text()).trim();
         $('#list_three span').text('');
         $($('#list_three span')).text(old_content_span+' '+title_tab);
@@ -210,8 +210,8 @@
         $(new_pad).removeClass('content_pad_page_collapsed').addClass('content_pad_page');
         return false;
     });
-    
-    $(".content_menu").click(function (){
+
+$(document).on('click','.content_menu, .content_menu_inline button',function(){    
         const Id = $(this).attr('id');
         if (typeof Id === 'undefined'){return false;}
         const val = $(this).attr('value');
@@ -530,9 +530,18 @@
             $('.content_menu:last').append('<div class="content_menu_inline"></div>');
             $('.content_menu_inline:last').append(
                 '<button type="button" actived id="'+persecution+'2" value="'+arrElements[i][0]
+                +'">\n<img src="img/specificfeaturesobj.v1.png"/>'+'<span>Специфика</span>'
+                +'\n\n\</button>').append(
+                '<button type="button" actived id="'+persecution+'0" value="'+arrElements[i][0]
                 +'">\n<img src="img/add.v1.png"/>'+'<span>Добавить</span>'
+                +'\n\n\</button>').append(
+                '<button type="button" actived id="'+persecution+'1" value="'+arrElements[i][0]
+                +'">\n<img src="img/redact.v1.png"/>'+'<span>Изменить</span>'
+                +'\n\n\</button>').append(
+                '<button type="button" actived id="'+persecution+'3" value="'+arrElements[i][0]
+                +'">\n<img src="img/addcompnt.v4.png"/>'+'<span>Компонент</span>'
                 +'\n\n\</button>'
-            );
+                );
         };
     };
     //function UpdateItemList()
