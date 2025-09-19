@@ -519,24 +519,43 @@
             $('#select_dlg option:first').prop('selected',true);
             $('#select_dlg option:first').text('Добавить');
     };
+    function fillTableElementData(arrElements){
+        $('.out_cont_line').remove();
+        
+        for(let i=0 ; i < arrElements.length; i++){
+            let persecution = 'm_'+i+'_'+ arrElements[i][0]+ '_' ;
+            $('.m_listing').append('<tr style="color: darkgreen;" class="out_cont_line">');
+            $('.out_cont_line:last').append('<td class="pointing"></td><td class="content_menu" style="border-width: 1px;"></td>');
+            $('.pointing:last').text(arrElements[i][1]);
+            $('.content_menu:last').append('<div class="content_menu_inline"></div>');
+            $('.content_menu_inline:last').append(
+                '<button type="button" actived id="'+persecution+'2" value="'+arrElements[i][0]
+                +'">\n<img src="img/add.v1.png"/>'+'<span>Добавить</span>'
+                +'\n\n\</button>'
+            );
+        };
+    };
     //function UpdateItemList()
     function UpdateItemList(){
         $.ajax({
             url:'interface/modelOperatorComponentSave.php',
             type:'POST',
             cache: true,
+            dataType: 'json',
             data:{data: JSON.stringify(updRes),
                 action: 'getItemListAfterUpdate'},
             success: function(response) {
-                    console.log("Данные получены");
-                    console.log(response);
-                       
+                    //console.log("Данные получены");
+                    //console.log(response);
+                    
+                    fillTableElementData($.parseJSON(response));                      
                 },
                 error: function(error){
                     console.log(error,' Ошибка сохранения');
                 }
         });
     }
+    
     function saveFormData(){ // Управление диалогом на первой вкладке страницы реализация меню в списке элементов 
         $.ajax({
             url:'interface/modelOperatorComponentSave.php',

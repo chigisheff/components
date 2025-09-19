@@ -62,7 +62,7 @@ class viewTableItem extends classBase{
         $stop = count($array);
         for ($i = 0; $i < $stop; $i++){
         ?>
-        <tr style="color: darkgreen;">
+        <tr style="color: darkgreen;" class="out_cont_line">
         <?php
             for($j = 0; $j < $cols;$j++){
           ?><td <?php if($j==0){echo 'class = "pointing"';}?>><?php
