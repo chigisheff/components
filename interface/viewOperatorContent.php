@@ -299,13 +299,13 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
         let arrInput = $('.nuanse-input');
         $(arrInput[0]).attr('id','NameNuanse_'+'0');
         $(arrInput[1]).attr('id','CntNuanse_'+'0');
-        //arrNuansesCount = 0;
+        arrNuansesCount = -1;
         try {
             await getNuansePresent(id);
             if(arrPresentNuanse.length){
                 for(let i=0; i<arrPresentNuanse.length;i++){
                     arrNuanses[i]=[`NameNuanse_${i}`,`CntNuanse_${i}`];
-                    //arrNuansesCount=arrNuansesCount+1;
+                    arrNuansesCount=arrNuansesCount+1;
                     if(i>0){
                         $('.inputNuanseString').append(`
                             <input type="text" class="nuanse-input" maxlength="22" id="NameNuanse_${i}" required>
@@ -316,9 +316,8 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     let b = $(`#CntNuanse_${i}`);
                     $(a).val(arrPresentNuanse[i][0]);
                     $(b).val(arrPresentNuanse[i][1]);
-                
-                   
                 }
+                arrNuanses[arrNuansesCount]=[`NameNuanse_${arrNuansesCount}`,`CntNuanse_${arrNuansesCount}`];
             }
             $('#NameNuanse_0').focus();
         } catch (error) {
