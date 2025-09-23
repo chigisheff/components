@@ -16,7 +16,8 @@ if (isset($_POST['action'])&&isset($_POST['data'])&&!empty($_POST['data'])) { //
             'putData',
             'getNuanseListForItem',
             'putItemAndHimData',
-            'getItemListAfterUpdate'
+            'getItemListAfterUpdate',
+            'putNuanseFromInputField'
         ])
     )   {
         $response = ['status' => 'error', 'message' => 'Вызвана недопустимая функция'];
@@ -90,6 +91,9 @@ function putItemAndHimData($dataset){
         }
         return json_encode(['status' => 'success', 'message' =>'Элемент сохранен']);
     }
+}
+function putNuanseFromInputField($dataIn){
+    
 }
 function getNuanseListForItem($dataIn){
     $id = json_encode($dataIn);    

@@ -280,20 +280,22 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
         $('#dlg_crs h1').html(messageDlg);
         return false;
     });
+    
     async function fillingRO_IfPresentNuanses(){
         const id = Idx_element;
-    try {
-        await getNuansePresent(id); // Ждём выполнения
-        if (arrPresentNuanse.length) {
-            $('.inputcol2').after("<p class='outNuanseString'></p>");
-            for(let i=0;i<arrPresentNuanse.length;i++){
-                $('.outNuanseString').append('<p> '+ arrPresentNuanse[i][0]+'</p> <p>'+arrPresentNuanse[i][1]+'</p>');
+        try {
+            await getNuansePresent(id); // Ждём выполнения
+            if (arrPresentNuanse.length) {
+                $('.inputcol2').after("<p class='outNuanseString'></p>");
+                for(let i=0;i<arrPresentNuanse.length;i++){
+                    $('.outNuanseString').append('<p> '+ arrPresentNuanse[i][0]+'</p> <p>'+arrPresentNuanse[i][1]+'</p>');
+                }
             }
-        }
         } catch (error) {
             console.error('Ошибка в fillingRO_IfPresentNuanses:', error);
         }
     }
+    
     async function fillingRW_IfPresentNuanses(){
         const id = Idx_element;
         let arrInput = $('.nuanse-input');
@@ -318,12 +320,16 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     $(b).val(arrPresentNuanse[i][1]);
                 }
                 arrNuanses[arrNuansesCount]=[`NameNuanse_${arrNuansesCount}`,`CntNuanse_${arrNuansesCount}`];
+            } else {
+                arrNuanses[i]=[`NameNuanse_0`,`CntNuanse_0`];
+                arrNuansesCount=arrNuansesCount+1;
             }
             $('#NameNuanse_0').focus();
         } catch (error) {
             console.error('Ошибка в fillingRW_IfPresentNuanses:', error);
         }
     }
+    
     function getNuansePresent(data){
         return new Promise((resolve, reject) => {
         $.ajax({
@@ -337,7 +343,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     var outvar = $.parseJSON(response);
                     if(Array.isArray(outvar)&&outvar.length > 0){
                         arrPresentNuanse = outvar;
-                         resolve(response);
+                        resolve(response);
                     }
                 },
                 error: function(error){
@@ -347,7 +353,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             });
         });
     };
-    // #detail_upload click
+
     $(".component #detail_upload, #detail_upload").click(function(){
         $("#expand2").click();
         $(".back_phone_DSh").css("display","block");
@@ -383,6 +389,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             `); // Восстанавливаем начальную пару полей
             arrNuanses = [];
             arrNuansesCount = 0;
+            arrPresentNuanse=[];
         }
         $('.back_phone').css('display','none');
     };
@@ -409,6 +416,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             fill_in(vl,idx);
         }
     };
+    
     function pushItemsData(){
         let arrInputsItems = [];
         arrInputsItems[0] = $('#NameElement').val();
@@ -416,11 +424,13 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
         arrInputsItems[2] = $('#TableName').val();
         return arrInputsItems;
     }
+    
     $(document).on('blur','#TableName',function(){
         if(menu_action === '0'){
             $('.nuanse-input:first-child').prop('disabled', false).focus();
         }
     });
+    
     $(document).on('focus','.nuanses p.inputNuanseString input.nuanse-input',function() {
         if(!interrupt_off){
             const $this = $(this);
@@ -490,7 +500,6 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     console.error('Ошибка: arrNuanses не инициализирован');
                     return;
                 }
-                
                 if(index === counter){ //  блок работает в режиме ввода новой записи
                     prevValue = $('#'+arrNuanses[arrNuansesCount][0]).val();
                     arrNuansesCount++;
@@ -583,9 +592,6 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             data:{data: JSON.stringify(updRes),
                 action: 'getItemListAfterUpdate'},
             success: function(response) {
-                    //console.log("Данные получены");
-                    //console.log(response);
-                    
                     fillTableElementData($.parseJSON(response));                      
                 },
                 error: function(error){
@@ -619,8 +625,8 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             "FName"         : ($('#dataUpload_done').length) ? "'"+$('#dataUpload_done').val()+"'" : null,
             "array_string"  : arr2string 
         };
-    //
-    };
+    }
+    
     $('#NameElement,#EngNameElement,#TableName').focusout(function(e){
         let arrInput = ['NameElement','EngNameElement','TableName'];
         let step = $.inArray(this.id,arrInput);
@@ -633,15 +639,14 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                 $('#'+arrInput[step+1]).focus();
             }
         };
-        
     });
+    
     $('#Umax,#Imax,#Fmax').focusout(function(e){
         if($(this).val().length === 0){
             ay_yay_ay(this);
             $(this).css('backgroundColor','');
             speechClue('Требуется числовое значение в поле');
         };
-        
     });
     
     function collectionFieldDial(){
@@ -659,6 +664,12 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
         var p = raw_DialogArray.sort();
         if(arrPresentNuanse.length){
             arrPresentNuanse.sort();
+            var fcolon = arrPresentNuanse.map(function(row){
+                return row[0];
+            });
+            var scolon = arrPresentNuanse.map(function(row){
+                return row[1];
+            });
         }
         raw_DialogArray = [];
         for(var i=0; i < p.length; i++){
@@ -669,8 +680,16 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                 }
             }
             if( countr === 1 ){ // удаляем нюансы с единственной вариацией
-                // здесь добавить ввод единственного значения, если вариант есть в ранее введенных из таблицы БД, если нет - удалить
-                p.splice(i,1); 
+                // здесь ввод единственного значения, но вариант есть в ранее введенных из таблицы БД, если нет - удалить
+                if(arrPresentNuanse.length){
+                    if(($.inArray(p[i][0],fcolon) <0) || ($.inArray(p[i][1],scolon) >=0)) { //удаляем, если нет в левом списке, при полном совпадении - удаляем
+                        p.splice(i,1);
+                    }
+                } 
+            } else {
+                if(($.inArray(p[i][0],fcolon) >=0) && ($.inArray(p[i][1],scolon) >=0)){ //удаляем, если полное совпадение левой и правой частей.
+                    p.splice(i,1);
+                }
             }
         }
         return complex = [
@@ -726,7 +745,8 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     action = 'putItemAndHimData';
                     break;
                 case '1':
-                    
+                    fulldata = [];
+                    action = 'putNuanseFromInputField';
                     break;
                 case '2':
                     fulldata = data;
