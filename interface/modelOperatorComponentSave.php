@@ -101,7 +101,7 @@ function getNuanseListForItem($dataIn){
     $dataonrequest = $p->GetDataElements($p->getConnect(), $id);
     $result=[];
     while($row = $dataonrequest->fetch_assoc()){
-        $result[] = [$row['name'],$row['value']];
+        $result[] = [$row['u_nuanse'],$row['name'],$row['value']];
     }
     return json_encode($result);
 }

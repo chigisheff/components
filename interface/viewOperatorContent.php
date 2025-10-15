@@ -68,7 +68,14 @@
         <div class="component"> 
             <form enctype="multipart/form-data" id="f_el_list" accept-charset="UTF-8 Windows-1251" method="post" >
                 <hr>
+                <p>Элемент: <span class="compgroup">Бу</span></p>
+                <hr>
                 <p>Компонент* <input type="text" id="element_cod"  required /></p>
+                <p>Специфика
+                    <select name="nuanse_box[]" id="select_nuanse" onchange="onSelectChange(event)" disabled>
+                        <option value="0">Не выбран</option>
+                    </select>
+                </p>
                 <p>Корпус* 
                     <select name="typ_box[]" id="select_dlg"  onchange="onSelectChange(event)" disabled>
                         <option value="0">Не выбран</option>
@@ -77,10 +84,11 @@
                         </select>
                         <button type="button" id="addbox" ><img src="img/add.v1.png"/></button>
                 </p>
+                
                 <p>Pmax(W) <input type="number" id="Pmax" disabled/></p>
                 <p>Umax(V)* <input type="number" id="Umax" disabled/></p>
                 <p>Imax(A)* <input type="number" id="Imax" disabled/></p>
-                <p>Fmax(mHz)* <input type="number" id="Fmax" disabled/></p>
+                <p>Fmax(mHz)<input type="number" id="Fmax" disabled/></p>
                 <p>DataSheet</p><hr>
                 <input type="file" id="file-upload" accept=".pdf,.doc,.docx,.xlsx,.xls,.odt,.ods" name="file_push" disabled/>
                 <p></p>
@@ -133,6 +141,8 @@
     var ind = 0;
     var Idx_element;
     var inputcontent=[];
+    var inputnuanse=[];
+    var selectnuanse;
     var files;
     var arr2string='';
     var old_content_span = "Компоненты : ";
@@ -153,7 +163,8 @@
 
     $('#element_cod').focusout(function(){
         if($('#element_cod').val() !== ''){
-            $('#select_dlg').prop('disabled',false).focus();
+            $('#select_nuanse').prop('disabled',false).focus();
+            $('#select_dlg').prop('disabled',false);
             $('#Pmax').prop('disabled',false);
             $('#Umax').prop('disabled',false);
             $('#Imax').prop('disabled',false);
@@ -273,13 +284,36 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                 $('p:has(button)').css('display','block');
                 messageDlg = 'Новый компонент';
                 $('#file-upload').prop('disabled',true);
+                $('.compgroup').text(string_element);
                 $('.component').css('display','block');               
+                fillingRO_IfPresentForSelect();
                 break;
-        }
+            }
         string_element='';
         $('#dlg_crs h1').html(messageDlg);
         return false;
     });
+    
+    async function fillingRO_IfPresentForSelect(){
+        const id = Idx_element;
+        try {
+            await getNuansePresent(id);
+            if(arrPresentNuanse.length > 0){
+                let point = $('p:has("#select_nuanse")');
+                point.text(arrPresentNuanse[0][1]);
+                point.append('<select name="nuanse_box[]" id="select_nuanse" onchange="onSelectChange(event)" disabled>  </select>');
+                $("#select_nuanse").append('<option value="0">Не выбран</option>');
+                for(let i=0;i<arrPresentNuanse.length;i++){
+                    $("#select_nuanse").append($('<option>',{value: arrPresentNuanse[i][0], text:arrPresentNuanse[i][2]}));
+                }
+            } 
+            
+            if(arrPresentNuanse.length === 0){
+                $('p:has("#select_nuanse")').css('color','#888');
+            }
+            
+        } catch (error){console.log(error);}
+    }
     
     async function fillingRO_IfPresentNuanses(){
         const id = Idx_element;
@@ -288,7 +322,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             if (arrPresentNuanse.length) {
                 $('.inputcol2').after("<p class='outNuanseString'></p>");
                 for(let i=0;i<arrPresentNuanse.length;i++){
-                    $('.outNuanseString').append('<p> '+ arrPresentNuanse[i][0]+'</p> <p>'+arrPresentNuanse[i][1]+'</p>');
+                    $('.outNuanseString').append('<p> '+ arrPresentNuanse[i][1]+'</p> <p>'+arrPresentNuanse[i][2]+'</p>');
                 }
             }
         } catch (error) {
@@ -316,8 +350,8 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                     };
                     let a = $(`#NameNuanse_${i}`);
                     let b = $(`#CntNuanse_${i}`);
-                    $(a).val(arrPresentNuanse[i][0]);
-                    $(b).val(arrPresentNuanse[i][1]);
+                    $(a).val(arrPresentNuanse[i][1]);
+                    $(b).val(arrPresentNuanse[i][2]);
                 }
                 arrNuanses[arrNuansesCount]=[`NameNuanse_${arrNuansesCount}`,`CntNuanse_${arrNuansesCount}`];
             } else {
@@ -371,6 +405,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             ind = 0;
             $('#Result').empty();
             inputcontent = [];
+            selectnuanse ='';
             interrupt_off=false;
             $('#select_dlg option:first').text('Не выбран');
         } else {
@@ -409,12 +444,25 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
     });
     
     function onSelectChange(event) {
-        const selectedValue = event.target.value;
-        const vl = $("#select_dlg option:selected").text();
-        const idx = $("#select_dlg option:selected").val();
-        if(ind===0 && vl !== "Не выбран"){
-            fill_in(vl,idx);
+        if(event.target.id === 'select_dlg'){
+            const selectedValue = event.target.value;
+            const vl = $("#select_dlg option:selected").text();
+            const idx = $("#select_dlg option:selected").val();
+            if(ind===0 && vl !== "Не выбран"){
+                fill_in(vl,idx);
+                
+            }
         }
+        //let a = event.target.id; отладочное
+        if (event.target.id === 'select_nuanse'){
+            const selectdValueNuanse = event.target.value;
+            //const selectTextNuanse = event.target.options[event.target.selectedIndex].text; отладочное
+            const vln = $("#select_nuanse option:selected").text();
+            const idxn = $("#select_nuanse option:selected").val();
+            inputnuanse = [idxn,vln];
+            
+        }
+        return false;
     };
     
     function pushItemsData(){
@@ -549,14 +597,15 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
     }
    
     function fill_in(vl,idx){
-            inputcontent[ind] = [idx,vl];
-            const what=`prev_${ind}`;
-            $("#Result").append('<p><input type="text" id="'+what+'" form="f_el_list" /></p>');
-            $("#"+what).val(vl).prop('disabled',true);
-            ind = ind+1;
-            $('#select_dlg option:first').prop('selected',true);
-            $('#select_dlg option:first').text('Добавить');
+        inputcontent[ind] = [idx,vl];
+        const what=`prev_${ind}`;
+        $("#Result").append('<p><input type="text" id="'+what+'" form="f_el_list" /></p>');
+        $("#"+what).val(vl).prop('disabled',true);
+        $('#select_dlg option:first').prop('selected',true);
+        $('#select_dlg option:first').text('Добавить');
+        ind = ind+1;
     };
+    
     function fillTableElementData(arrElements){
         $('.out_cont_line').remove();
         
@@ -602,7 +651,7 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
     
     function saveFormData(){ // Управление диалогом на первой вкладке страницы реализация меню в списке элементов 
         $.ajax({
-            url:'interface/modelOperatorComponentSave.php',
+            url:'interface/modelTableDataOperator.php',
             type:'POST',
             cache: false,
             processData:true,
@@ -623,7 +672,9 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             "Imax"          : "'"+($('#Imax').val()).replaceAll(',','.')+"'",
             "Fmax"          : "'"+$('#Fmax').val().replaceAll(',','.')+"'",
             "FName"         : ($('#dataUpload_done').length) ? "'"+$('#dataUpload_done').val()+"'" : null,
-            "array_string"  : arr2string 
+            "nuanse"        : selectnuanse,
+            "array_string"  : arr2string
+            
         };
     }
     
@@ -665,10 +716,10 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
         if(arrPresentNuanse.length){
             arrPresentNuanse.sort();
             var fcolon = arrPresentNuanse.map(function(row){
-                return row[0];
+                return row[1];
             });
             var scolon = arrPresentNuanse.map(function(row){
-                return row[1];
+                return row[2];
             });
         }
         raw_DialogArray = [];
@@ -682,12 +733,14 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
             if( countr === 1 ){ // удаляем нюансы с единственной вариацией
                 // здесь ввод единственного значения, но вариант есть в ранее введенных из таблицы БД, если нет - удалить
                 if(arrPresentNuanse.length){
-                    if(($.inArray(p[i][0],fcolon) <0) || ($.inArray(p[i][1],scolon) >=0)) { //удаляем, если нет в левом списке, при полном совпадении - удаляем
+                    if(($.inArray(p[i][1],fcolon) <0) || ($.inArray(p[i][2],scolon) >=0)) { 
+                        //удаляем, если уникальный нюанс, при дублировании - так же удаляем
                         p.splice(i,1);
                     }
                 } 
             } else {
-                if(($.inArray(p[i][0],fcolon) >=0) && ($.inArray(p[i][1],scolon) >=0)){ //удаляем, если полное совпадение левой и правой частей.
+                if(($.inArray(p[i][1],fcolon) >=0) && ($.inArray(p[i][2],scolon) >=0)){ 
+                    //удаляем повторно введенный нюанс, в дальнейшем можно "раскрасить" диалог на момент введения, но позже
                     p.splice(i,1);
                 }
             }
@@ -703,14 +756,20 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
         event.preventDefault();
         speechClue('Сохранение данных');
         var furl='';
-        if(menu_action === 3){
+        if(menu_action === '3'){
             furl = 'interface/modelOperatorDataSheetUpload.php';
-            if($("#select_dlg option:selected").text()==='Не выбран'){ay_yay_ay("#select_dlg");return false;}
-            if ($('#Umax').val()===''){ay_yay_ay('#Umax');return false;}
-            if ($('#Imax').val()===''){ay_yay_ay('#Imax');return false;}
-            //if ($('#Fmax').val()===''){ay_yay_ay('#Fmax');return false;}
+            if(($("#select_nuanse option:selected").text()==='Не выбран')
+                    &&($("#select_nuanse option").length > 1)){ay_yay_ay("#select_nuanse");speechClue('Требуется выбор параметра');return false;}
+            if($("#select_dlg option:selected").text()==='Не выбран'){ay_yay_ay("#select_dlg");speechClue('Требуется выбор параметра');return false;}
+            if ($('#Umax').val()===''){ay_yay_ay('#Umax');speechClue('Отсутствует обязательный параметр Umax');return false;}
+            if ($('#Imax').val()===''){ay_yay_ay('#Imax');speechClue('Отсутствует обязательный параметр Imax');return false;}
             var t_data = new FormData();
             t_data.append('files',$("#file-upload")[0].files[0]);
+            if(inputnuanse.length > 0){
+                inputcontent.push(inputnuanse);
+            } else {
+                inputcontent.push(0);
+            }
             $.ajax({
                 url:furl,
                 type:"POST",
@@ -722,14 +781,14 @@ $(document).on('click','.content_menu, .content_menu_inline button',function(){
                 success: function(msg){ // при наличии внешнего datasheet от производителя компонента сохраняем 
                     //его, при отсутствии сохраняем в базе данных более подробные характеристики 
                     console.log(msg); // отладочное. Если загружен DSh, то будет true, ну или не будет, если файл не загружен
-                    arr2string = inputcontent.join('_');
+                    arr2string = [[inputcontent.join('_')],[(inputnuanse.length)]]; //Упаковываем оба массива в одну строку, указываем наличие nuanses
                     prepareFormData();
                     saveFormData();
                     speechClue('Данные сохранены!');
                     clearForm();
                 },
                 error: function(error){
-                    speechClue('Ошибка сохранения данных');
+                    speechClue('Ошибка сохранения');
                     console.log(error);
                 }
             });

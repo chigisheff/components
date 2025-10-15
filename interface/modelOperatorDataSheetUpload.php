@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Description of modelOperatorDataSheetUpload
+ *
+ * @author andreych
+ */
 if ((count($_FILES)) > 0) {
     $input_name = 'files';
     $path = $_SERVER['DOCUMENT_ROOT'] . '/datasheets/';
@@ -20,4 +26,3 @@ if ((count($_FILES)) > 0) {
 } else {$response = false;} // Продолжаем без сохранения файла
 header('Content-Type: application/json');
 echo json_encode($response);
-
