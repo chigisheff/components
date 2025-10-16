@@ -23,11 +23,11 @@ header('Accept: application/json');
     
     $p = new modelOperatorIndex();
     $rd_field = $p->prepareArrayToNull($field);
-    $mysql = $p->getConnect();
+    $connect = $p->getConnect();
     foreach ($unpackBox as $value) {
         $rd_field[2] = $value[0]; // Для каждого типа корпуса новая запись
         $rd_field[8] = (is_null($rd_field[8])) ? "'intro'":$rd_field[8];
-        $p->insertToElementList($mysql, $rd_field);
+        $p->insertToElementList($connect, $rd_field);
     }
 echo json_encode('Информация сохранена'. $field[7]);
 

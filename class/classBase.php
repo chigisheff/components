@@ -16,12 +16,12 @@ class classBase
         }
         return $db;
     }
-    public function InsertRecord($mysql, $table, $field= array(), $value= array()){
-        if(is_null($mysql)){return false;}
+    public function InsertRecord($connection, $table, $field= array(), $value= array()){
+        if(is_null($connection)){return false;}
         if(!is_array($field)){return false;}
         if(!is_array($value)){return false;}
         $sql="INSERT INTO ".$table.' ('.implode(",",$field).') '." VALUES (". implode(", ", $value).');';
-        $result = mysqli_query($mysql, $sql);
+        $result = mysqli_query($connection, $sql);
         return $result;
     }
     public function getFor($connect,$table,$key, $fieldKey, $offset=0) {
